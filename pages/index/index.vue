@@ -1,8 +1,21 @@
 <template>
-	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{title}}</text>
+	<view>
+		<list v-if="PageCur=='list'"></list>
+		<rank v-if="PageCur=='rank'"></rank>
+		<about v-if="PageCur=='about'"></about>
+		<view class="cu-bar tabbar bg-white shadow foot">
+			<view class="action" @click="NavChange" data-cur="list">
+				<view><text class="justify-center" :class="PageCur=='list'?'cuIcon-homefill':'cuIcon-home'"></text></view>
+				<view :class="PageCur=='list'?'text-green':'text-gray'">首页</view>
+			</view>
+			<view class="action" @click="NavChange" data-cur="rank">
+				<view><text class="justify-center" :class="PageCur=='rank'?'cuIcon-hotfill':'cuIcon-hot'"></text></view>
+				<view :class="PageCur=='rank'?'text-green':'text-gray'">排行</view>
+			</view>
+			<view class="action" @click="NavChange" data-cur="about">
+				<view><text class="justify-center" :class="PageCur=='about'?'cuIcon-myfill':'cuIcon-my'"></text></view>
+				<view :class="PageCur=='about'?'text-green':'text-gray'">关于</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -11,42 +24,16 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				PageCur: 'list'
 			}
 		},
-		onLoad() {
-
-		},
 		methods: {
-
+			NavChange: function(e) {
+				this.PageCur = e.currentTarget.dataset.cur
+			}
 		}
 	}
 </script>
 
 <style>
-	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 200rpx;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50rpx;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
-	}
 </style>
