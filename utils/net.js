@@ -13,27 +13,28 @@ function request(requestHandler) {
   var method = requestHandler.method;
   var showloading = requestHandler.showloading;
   if (showloading != false) {
-    // wx.showLoading({
-    //   title: "加载中",
-    //   mask: false
-    // });
+    uni.showLoading({
+      title: "加载中",
+      mask: false
+    });
   }
   uni.request({
     url: url,
     data: data,
     method: method,
     success: function(res) {
-      // wx.hideLoading();
+      uni.hideLoading();
       requestHandler.success(res);
     },
     fail: function() {
-      // wx.hideLoading();
-      // wx.showToast({
-      //   title: "网络错误请刷新",
-      //   image: "../resources/error1.png",
-      //   duration: 2000
-      // });
-      // requestHandler.fail();
+      uni.hideLoading();
+      uni.showToast({
+        title: "网络错误请刷新",
+		icon: "none",
+        // image: "../resources/error1.png",
+        duration: 2000
+      });
+      requestHandler.fail();
     },
     complete: function() {}
   });

@@ -2,13 +2,13 @@
 	<view>
 		<swiper class="screen-swiper square-dot" v-if="!swiperList.length == 0" :indicator-dots="true" :circular="true"
 		 :autoplay="true" interval="5000" duration="500">
-			<swiper-item v-for="(item,index) in swiperList" :key="index" class="cur">
-				<image :src="item" mode="aspectFill"></image>
+			<swiper-item v-for="(item,index) in swiperList" :key="index" class="cur" @click="openArticle(item.cid, item.title)">
+				<image :src="item.src" mode="aspectFill"></image>
 			</swiper-item>
 		</swiper>
 		<scroll-view scroll-x class="bg-white nav">
 			<view class="flex text-center">
-				<view class="cu-item flex-sub" :class="index==tabCur?'text-orange cur':''" v-for="(item,index) in categoryList"
+				<view class="cu-item flex-sub" :class="index==tabCur?'cur text-' + color :''" v-for="(item,index) in categoryList"
 				 :key="index" @tap="tabSelect" :data-id="index">
 					{{item.name}}
 				</view>
@@ -26,14 +26,19 @@
 				</view>
 			</view>
 		</view>
+		<footerinfo />
 	</view>
 </template>
 
 <script>
-	import API from '@/utils/api.js'
-	import Net from '@/utils/net.js'
+	import footerinfo from '@/components/footerinfo.vue';
+	import cfg from "@/config.js";;
+	import API from '@/utils/api.js';
+	import Net from '@/utils/net.js';
 	export default {
-		components: {},
+		components: {
+			footerinfo
+		},
 		mounted() {
 			this.fetchTopPosts();
 			this.fetchCategotyList();
@@ -41,6 +46,7 @@
 		data() {
 			return {
 				tabCur: 0,
+				color: cfg.getcolor,
 				swiperList: [],
 				categoryList: [],
 				articleList: []
@@ -60,17 +66,22 @@
 					url: API.GetSwiperPost(),
 					success: function(res) {
 						var datas = res.data.data;
+						// console.log(datas);
 						let swiperList = [];
 						datas.forEach(function(data) {
-							let result = "";
+							let result = {};
 							data["thumb"].forEach(function(thumb) {
 								if (thumb.name === "thumb") {
-									result = thumb['str_value'];
+									result['cid'] = data['cid'];
+									result['title'] = data['title'];
+									result['ispost'] = data['type'] == 'post' ? true : false;
+									result['src'] = thumb['str_value'];
 								}
 							});
 							swiperList.push(result);
 						});
 						that.swiperList = swiperList;
+						console.log(that.swiperList);
 					}
 				});
 			},
@@ -117,11 +128,11 @@
 							});
 							that.articleList = articleList;
 						} else {
-							// wx.showToast({
-							//   title: "该分类没有文章",
-							//   image: "../../resources/error1.png",
-							//   duration: 2000
-							// });
+							wx.showToast({
+								title: "该分类没有文章",
+								icon: "none",
+								duration: 2000
+							});
 						}
 					}
 				});

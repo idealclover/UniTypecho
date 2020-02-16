@@ -17,4 +17,16 @@
 	@import "static/libs/colorui/main.css";
 	@import "static/libs/colorui/icon.css";
 	@import "static/libs/uParse/wxParse.css";
+	page{
+	  padding-bottom: 100upx;
+	}
+	
+	.wxParse .a {
+	    color: blue;
+	}
+	
+	.wxParse view .p view,
+	.wxParse view .li view{
+		display: inline;
+	}
 </style>

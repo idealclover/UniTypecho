@@ -1,20 +1,28 @@
 <template name="commentdetail">
 	<view>
-		<!-- <uParse :content="article" @preview="preview" @navigate="navigate" /> -->
-<!-- 		<view class="cu-item" v-for="(item,index) in commentList" :key="index">
+		<!-- 		<view class="cu-item" v-for="(item,index) in commentList" :key="index">
 			<view class="content padding-tb-sm">
 				<view class="padding-lr-xs">{{item.text}}</view>
 			</view>
 		</view> -->
+		<view class="cu-bar">
+			<view class="action sub-title">
+				<text class="text-xl text-bold text-green">评论</text>
+				<text class="bg-green" style="width:2rem"></text>
+			</view>
+		</view>
 		<view class="cu-list menu-avatar comment solids-top">
 			<view class="cu-item" v-for="(item,index) in commentList" :key="index">
 				<view class="cu-avatar round" :style="'background-image:url(' + item.authorImg + ');'"></view>
 				<view class="content">
 					<view class="text-grey">{{item.author}}</view>
-					<view class="text-gray text-content text-df" style="word-break: break-all;"><uParse :content="item.text" /></view>
+					<view class="text-gray text-content text-df" style="word-break: break-all;">
+						<uParse :content="item.text" />
+					</view>
 					<!-- TODO: replay to reply -->
 					<view class="padding-sm radius margin-top-sm" v-for="(citem,cindex) in item.replays" :key="cindex">
-							<view>{{citem.author}}: </view><uParse :content="citem.text" />
+						<view>{{citem.author}}: </view>
+						<uParse :content="citem.text" />
 					</view>
 					<view class="margin-top-sm flex justify-between">
 						<view class="text-gray text-df">{{item.comcreatedtime}}</view>
@@ -71,7 +79,7 @@
 							item.comcreatedtime = API.getcreatedtime(item.created);
 							return item;
 						})
-						console.log(that.commentList);
+						// console.log(that.commentList);
 					}
 				});
 			},
@@ -85,3 +93,7 @@
 	}
 </script>
 <style>
+	.cu-bar .action:first-child {
+		margin-left: 0;
+	}
+</style>

@@ -56,7 +56,7 @@ export default {
 
       if (originalWidth < 60 || originalHeight < 60) {
         const { src } = this.node.attr;
-        this.node.$host.removeImageUrl(src);
+        // this.node.$host.removeImageUrl(src);
         this.preview = false;
       }
 

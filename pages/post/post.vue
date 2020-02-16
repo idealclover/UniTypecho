@@ -1,13 +1,17 @@
 <template>
-	<view class="margin-xl">
-		<articledetail :cid="cid" :isPage="false" />
-		<commentdetail :cid="cid" />
+	<view>
+		<view class="margin-xl">
+			<articledetail :cid="cid" :isPage="false" :title="title" />
+			<commentdetail :cid="cid" />
+		</view>
+		<commentsender />
 	</view>
 </template>
 
 <script>
-	import articledetail from '@/components/articledetail.vue'
-	import commentdetail from '@/components/commentdetail.vue'
+	import articledetail from '@/components/articledetail.vue';
+	import commentdetail from '@/components/commentdetail.vue';
+	import commentsender from '@/components/commentsender.vue';
 	export default {
 		data() {
 			return {
@@ -17,9 +21,13 @@
 		},
 		components:{
 			articledetail,
-			commentdetail
+			commentdetail,
+			commentsender
 		},
 		onLoad: function (option) {
+			uni.setNavigationBarTitle({
+			    title: option.title
+			});
 			this.cid = option.cid;
 			this.title = option.title;
 			this.fetchPost();

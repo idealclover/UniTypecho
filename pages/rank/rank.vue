@@ -2,7 +2,7 @@
 	<view>
 		<scroll-view scroll-x class="bg-white nav">
 			<view class="flex text-center">
-				<view class="cu-item flex-sub" :class="index==tabCur?'text-orange cur':''" v-for="(item,index) in categoryList"
+				<view class="cu-item flex-sub" :class="index==tabCur?'cur text-' + color :''" v-for="(item,index) in categoryList"
 				 :key="index" @tap="tabSelect" :data-id="index">
 					{{item}}
 				</view>
@@ -24,12 +24,14 @@
 </template>
 
 <script>
+	import cfg from "@/config.js";
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
 	export default {
 		data() {
 			return {
 				tabCur: 0,
+				color: cfg.getcolor,
 				categoryList: ['浏览量', '评论数', '点赞数'],
 				articleList: []
 			}

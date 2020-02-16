@@ -1,5 +1,7 @@
 <template name="articledetail">
 	<view>
+		<h1>{{title}}</h1>
+		<hr />
 		<uParse :content="article" @preview="preview" @navigate="navigate" />
 	</view>
 </template>
@@ -13,7 +15,7 @@
 		components: {
 			uParse
 		},
-		props: ['cid', 'isPage'],
+		props: ['cid', 'isPage', 'title'],
 		mounted() {
 			if (typeof this.cid !== 'undefined') {
 				this.getdetails(this.cid);
@@ -41,9 +43,11 @@
 					success: function(res) {
 						let datas = res.data.data;
 						if (datas.length !== 0) {
+							// console.log(datas);
 							let item = API.ParseItem(datas[0]);
-							console.log(item)
-							that.article = marked(item.text);
+							let text = item.text.replace();
+							// console.log(item);
+							that.article = marked(text);
 						}
 
 
