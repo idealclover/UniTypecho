@@ -1,10 +1,19 @@
 <template name="commentdetail">
 	<view>
-		<!-- 		<view class="cu-item" v-for="(item,index) in commentList" :key="index">
-			<view class="content padding-tb-sm">
-				<view class="padding-lr-xs">{{item.text}}</view>
+		<view class="cu-bar">
+			<view class="action sub-title">
+				<text class="text-xl text-bold text-green">{{likeNum}}人赞</text>
+				<text class="bg-green" style="width:2rem"></text>
 			</view>
-		</view> -->
+		</view>
+		<scroll-view scroll-x="true" scroll-with-animation>
+			<!-- <view class="cu-item" :class="index==TabCur?'text-green cur':''" v-for="(item,index) in 10" :key="index" @tap="tabSelect" :data-id="index">
+				Tab{{index}}
+			</view> -->
+			<view class="cu-avatar-group">
+				<view class="cu-avatar round lg" v-for="(item,index) in avatarList" :key="index" :style="[{ backgroundImage:'url(' + item + ')' }]"></view>
+			</view>
+		</scroll-view>
 		<view class="cu-bar">
 			<view class="action sub-title">
 				<text class="text-xl text-bold text-green">评论</text>
@@ -19,16 +28,16 @@
 					<view class="text-gray text-content text-df" style="word-break: break-all;">
 						<uParse :content="item.text" />
 					</view>
-					<!-- TODO: replay to reply -->
-					<view class="padding-sm radius margin-top-sm" v-for="(citem,cindex) in item.replays" :key="cindex">
+					<view class="padding-sm radius margin-top-sm" v-for="(citem,cindex) in item.replay" :key="cindex">
 						<view>{{citem.author}}: </view>
 						<uParse :content="citem.text" />
 					</view>
 					<view class="margin-top-sm flex justify-between">
-						<view class="text-gray text-df">{{item.comcreatedtime}}</view>
-						<view>
+						<view class="text-gray text-df">{{item.createdtime}}</view>
+						<!-- TODO: reply -->
+						<!-- <view>
 							<text class="cuIcon-messagefill text-gray margin-left-sm"></text>
-						</view>
+						</view> -->
 					</view>
 				</view>
 			</view>
@@ -36,50 +45,83 @@
 	</view>
 </template>
 <script>
-	import uParse from '@/static/libs/uParse/wxParse.vue'
+	import uParse from '@/libs/uParse/wxParse.vue'
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
+	import Util from '@/utils/util.js'
 	import marked from 'marked'
 
 	export default {
 		components: {
 			uParse
 		},
-		props: ['cid'],
+		props: ['cid', 'isPage', 'refresh'],
 		mounted() {
-			if (typeof this.cid !== 'undefined') {
+			if (!Util.isNull(this.cid)) {
 				this.getdetails(this.cid);
 			}
 		},
 		watch: {
 			cid: function(cid) {
-				this.getdetails(cid)
+				if(this.isPage) this.getdetails(cid);
+			},
+			refresh: function() {
+				this.getdetails(this.cid);
 			}
 		},
 		data() {
 			return {
-				// article: '加载中',
-				commentList: []
+				avatarList: [],
+				commentList: [],
+				likeNum: "",
+				likeList: []
 			}
 		},
 		methods: {
 			getdetails(cid) {
+				if(Util.isNull(cid)) return;
 				let that = this;
 				Net.request({
-					url: API.GetPostsCommentbyCID(cid),
+					url: API.getLikedNum(cid),
+					showLoading: true,
+					success: function(res) {
+						that.likeNum = res.data.data[0]['likes'];
+						Net.request({
+							url: API.getLikedList(cid),
+							success: function(res) {
+								let datas = res.data.data;
+								let avatarList = [];
+								for(let i in datas){
+									let avatarUrl = datas[i]['avatarUrl'];
+									if(avatarUrl != "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epCic4ltiabot0iaeWCzmpxqSyk31A9m5zxeOUUuUYegYf42pA02ObA6hibOiam7c7MrQ0EFdqRVVXavRA/132")
+									avatarList.push(avatarUrl);
+								}
+								let leftAvatars = that.likeNum - avatarList.length
+								for(let i = 0; i < leftAvatars; i++){
+									avatarList.push('/static/images/default.jpg');
+								};
+								avatarList.reverse();
+								that.avatarList = avatarList;
+							}
+						});
+					}
+				});
+
+				Net.request({
+					url: API.getCommentsByCid(cid),
+					showLoading: true,
 					success: function(res) {
 						let commentList = res.data.data;
 						that.commentList = commentList.map(function(item) {
-							if (item.author == null || item.author == "undefined") {
+							if (Util.isNull(item.author)) {
 								item.author = "游客";
 							}
-							if (item.authorImg == null || item.authorImg == "undefined") {
-								item.authorImg = "http://secure.gravatar.com/avatar/";
+							if (Util.isNull(item.authorImg)) {
+								item.authorImg = "/static/images/default.jpg";
 							}
-							item.comcreatedtime = API.getcreatedtime(item.created);
+							item.createdtime = API.getCreatedTime(item.created);
 							return item;
 						})
-						// console.log(that.commentList);
 					}
 				});
 			},
@@ -95,5 +137,8 @@
 <style>
 	.cu-bar .action:first-child {
 		margin-left: 0;
+	}
+	.cu-avatar-group {
+		white-space: nowrap;
 	}
 </style>

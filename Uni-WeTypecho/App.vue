@@ -14,9 +14,9 @@
 
 <style>
 	/*每个页面公共css */
-	@import "static/libs/colorui/main.css";
-	@import "static/libs/colorui/icon.css";
-	@import "static/libs/uParse/wxParse.css";
+	@import "libs/colorui/main.css";
+	@import "libs/colorui/icon.css";
+	@import "libs/uParse/wxParse.css";
 	page{
 	  padding-bottom: 100upx;
 	}

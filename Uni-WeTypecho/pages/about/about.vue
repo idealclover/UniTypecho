@@ -2,34 +2,49 @@
 	<view>
 		<view class="UCenter-bg">
 			<image src="/static/images/logo.png" class="png" mode="widthFix"></image>
-			<view class="text-xl">{{name}}</view>
+			<view class="text-xxl padding">{{name}}</view>
 			<image src="/static/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
 		</view>
 		<view class="margin-xl">
-			<articledetail :cid="cid" :isPage="true" />
-			<commentdetail :cid="cid" />
+			<articledetail :cid="cid" :isPage="true" :showTools="false" />
+			<commentdetail :cid="cid" :isPage="true" :refresh="refreshComments" v-if="showComments" />
 		</view>
+		<commentsender :cid="cid" :isPage="true" @onRefreshComments="onRefreshComments"  v-if="showComments" />
 	</view>
 </template>
 
 <script>
 	import articledetail from '@/components/articledetail.vue'
 	import commentdetail from '@/components/commentdetail.vue'
+	// #ifdef MP-WEIXIN
+	import commentsender from '@/components/commentsender/wx.vue';
+	// #endif
+	// #ifdef MP-QQ
+	import commentsender from '@/components/commentsender/qq.vue';
+	// #endif
+	// #ifdef APP-PLUS
+	import commentsender from '@/components/commentsender/app.vue';
+	// #endif
 	import cfg from "@/config.js";
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
+	import Util from '@/utils/util.js'
 
 	export default {
 		mounted() {
+			this.showComments = getApp().globalData.showComments;
 			this.getabout();
 		},
 		components: {
 			articledetail,
-			commentdetail
+			commentdetail,
+			commentsender
 		},
 		data() {
 			return {
 				cid: null,
+				showComments: false,
+				refreshComments: false,
 				name: cfg.getname
 			}
 		},
@@ -38,19 +53,22 @@
 				let that = this;
 				let content = ``
 				Net.request({
-					url: API.GetAboutCid(),
+					url: API.getAboutCid(),
+					showLoading: true,
 					success: function(res) {
 						var datas = res.data.data;
-						if (API.IsNull(datas)) {
+						if (!Util.isNull(datas)) {
 							if (datas != "none") {
-								// that.article = marked(datas);
 								that.cid = datas;
-								// that.getdetails(datas);
+								return;
 							}
 						}
 					}
 				});
 			},
+			onRefreshComments() {
+				this.refreshComments = !this.refreshComments;
+			}
 		}
 	}
 </script>

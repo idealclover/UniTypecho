@@ -1,9 +1,9 @@
 <template name="commentsender">
 	<view>
-		<view class="cu-bar foot input" :style="[{bottom:InputBottom+'px'}]">
+		<view class="cu-bar foot input">
 			<!-- <form report-submit='true' :bindsubmit="userSubmit"> -->
-			<input class="solid-bottom" :adjust-position="false" :focus="false" maxlength="300" cursor-spacing="10" @focus="InputFocus"
-			 @blur="InputBlur" placeholder="说些什么吧!" ref="commentInput"></input>
+			<input class="solid-bottom" :adjust-position="false" :focus="false" maxlength="300" placeholder="说些什么吧!" @input="onInput"></input>
+			<!-- cursor-spacing=10 @focus="InputFocus" @blur="InputBlur" -->
 			<!-- <view class="action"><text class="cuIcon-emojifill text-grey"></text></view> -->
 			<button class="cu-btn bg-green shadow" @click="sendComment()" open-type="getUserInfo">发送</button>
 			<!-- form-type='submit' -->
@@ -16,23 +16,31 @@
 </template>
 
 <script>
-	import API from '@/utils/api.js'
-	import Net from '@/utils/net.js'
+	import API from '@/utils/api.js';
+	import Net from '@/utils/net.js';
+	import Util from '@/utils/util.js';
+
 	export default {
 		props: ['cid'],
 		data() {
-			return {};
+			return {
+				value: ""
+			};
 		},
 		methods: {
+			onInput(e) {
+				console.log(e.detail['value'])
+				this.value = e.detail['value'];
+			},
 			// userSubmit: function(e) {
 			// 	console.log(e.detail.formId);
 			// },
 			sendComment() {
-				console.log(this.$refs.commentInput);
-				let text = this.$refs.commentInput.inputValue;
-				console.log(text);
-				if (typeof text !== 'undefined' || text == null || text == "") return;
-				
+				console.log(this.value);
+				// let text = this.$refs.commentInput.inputValue;
+				// console.log(text);
+				// if (Util.isNull(text)) return;
+
 				// let that = this;
 				// uni.login({
 				// 	provider: 'weixin',
@@ -51,22 +59,22 @@
 				// 					console.log(infoRes);
 				// 				  }
 				// 				});
-								// if (API.loginsuccess(app))
-								// Net.request({
-								// 	url: API.Postcomment(
-								// 		that.cid,
-								// 		infoRes.userInfo.openid,
-								// 		infoRes.userInfo.nickName,
-								// 		"aaa",
-								// 		0,
-								// 		infoRes.userInfo.avatarUrl,
-								// 		// e.detail.formId
-								// 	),
-								// 	success: function(res) {
-								// 		// TODO
-								// 		// that.getcomments(that.data.item.cid);
-								// 	}
-								// });
+				// if (API.loginsuccess(app))
+				// Net.request({
+				// 	url: API.Postcomment(
+				// 		that.cid,
+				// 		infoRes.userInfo.openid,
+				// 		infoRes.userInfo.nickName,
+				// 		"aaa",
+				// 		0,
+				// 		infoRes.userInfo.avatarUrl,
+				// 		// e.detail.formId
+				// 	),
+				// 	success: function(res) {
+				// 		// TODO
+				// 		// that.getcomments(that.data.item.cid);
+				// 	}
+				// });
 				// 			}
 				// 		});
 				// 	}

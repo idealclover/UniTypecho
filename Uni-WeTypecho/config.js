@@ -1,17 +1,14 @@
-var domain = "idealclover.top"
+var domain = "idealclover.cn"
 var name = "idealclover"
 var API_SECRET = "idealclover"
 
-var mp = "weixin"
-var name = "idealclover"
-var color = "red"
+var color = "green"
 
 export default {
     getdomain: domain,
     getname: name,
     getapisecret: API_SECRET,
 
-    getmp: mp,
 	getname: name,
 	getcolor: color
 }

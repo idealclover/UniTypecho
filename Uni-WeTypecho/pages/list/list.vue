@@ -22,6 +22,7 @@
 						<text class="cuIcon-attentionfill padding-lr-xs"></text>{{item.views}}
 						<text class="cuIcon-likefill padding-lr-xs"></text> {{item.likes}}
 						<text class="cuIcon-communityfill padding-lr-xs"></text> {{item.comments}}
+						<text class="cuIcon-timefill padding-lr-xs"></text>{{item.time}}
 					</view>
 				</view>
 			</view>
@@ -63,10 +64,10 @@
 			fetchTopPosts() {
 				let that = this;
 				Net.request({
-					url: API.GetSwiperPost(),
+					url: API.getSwiperPosts(),
+					showLoading: true,
 					success: function(res) {
 						var datas = res.data.data;
-						// console.log(datas);
 						let swiperList = [];
 						datas.forEach(function(data) {
 							let result = {};
@@ -81,15 +82,15 @@
 							swiperList.push(result);
 						});
 						that.swiperList = swiperList;
-						console.log(that.swiperList);
-					}
+					},
 				});
 			},
 			//获取类别
 			fetchCategotyList() {
 				let that = this;
 				Net.request({
-					url: API.GetCat(),
+					url: API.getCategories(),
+					showLoading: true,
 					success: function(res) {
 						var datas = res.data.data;
 						let categoryList = [];
@@ -109,12 +110,11 @@
 			//获取文章
 			fetchpostbymid(mid) {
 				let that = this;
-				console.log(mid);
 				Net.request({
-					url: API.GetPostsbyMID(mid),
+					url: API.getPostsByMid(mid),
+					showLoading: true,
 					success: function(res) {
 						var datas = res.data.data;
-						console.log(datas);
 						if (datas != null && datas != undefined) {
 							let articleList = [];
 							datas.forEach(function(data) {
@@ -124,6 +124,7 @@
 								result.views = data.views;
 								result.likes = data.likes;
 								result.comments = data.commentsNum;
+								result.time = API.getCreatedTime(data.created);
 								articleList.push(result);
 							});
 							that.articleList = articleList;

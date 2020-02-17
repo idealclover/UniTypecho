@@ -1,60 +1,68 @@
 <template name="articledetail">
 	<view>
-		<h1>{{title}}</h1>
-		<hr />
+		<view class="solid-bottom text-xxl padding-tb-sm">{{title}}</view>
+		<view class="text-gray padding-tb-lg" v-if="showTools && views != null">
+			<text class="cuIcon-attentionfill padding-lr-xs"></text>{{views}}
+			<text class="cuIcon-likefill padding-lr-xs"></text> {{likes}}
+			<text class="cuIcon-communityfill padding-lr-xs"></text> {{comments}}
+			<text class="cuIcon-timefill padding-lr-xs"></text>{{time}}
+		</view>
+		<hr  v-if="showTools"/>
 		<uParse :content="article" @preview="preview" @navigate="navigate" />
 	</view>
 </template>
 <script>
-	import uParse from '@/static/libs/uParse/wxParse.vue'
+	import uParse from '@/libs/uParse/wxParse.vue'
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
+	import Util from '@/utils/util.js'
 	import marked from 'marked'
 
 	export default {
 		components: {
 			uParse
 		},
-		props: ['cid', 'isPage', 'title'],
+		props: ['cid', 'isPage', 'showTools'],
 		mounted() {
-			if (typeof this.cid !== 'undefined') {
+			if (!Util.isNull(this.cid)) {
 				this.getdetails(this.cid);
 			}
 		},
-		// onReady: this.getdetails(cid),
 		watch: {
 			cid: function(cid) {
-				this.getdetails(cid)
+				if(this.isPage) this.getdetails(cid);
 			}
 		},
 		data() {
 			return {
 				article: '加载中',
+				title: '',
+				views: null,
+				likes: null,
+				comments: null,
+				time: null
 			}
 		},
 		methods: {
 			getdetails(cid) {
-				console.log(cid);
-				console.log(typeof cid);
-				if (typeof cid == 'undefined' || cid == null) return;
+				if(Util.isNull(cid)) return;
 				let that = this;
 				Net.request({
-					url: that.isPage ? API.GetPagebyCID(cid) : API.GetPostsbyCID(cid),
+					url: that.isPage ? API.getPagesByCid(cid) : API.getPostsByCid(cid),
+					showLoading: true,
 					success: function(res) {
 						let datas = res.data.data;
 						if (datas.length !== 0) {
-							// console.log(datas);
-							let item = API.ParseItem(datas[0]);
-							let text = item.text.replace();
-							// console.log(item);
+							let item = API.parsePost(datas[0]);
+							let text = item.text.replace(new RegExp('!!!', 'g'), '');
 							that.article = marked(text);
+							that.time = API.getCreatedTime(item.created);
+							that.comments = item.commentsNum;
+							that.views = item.views;
+							that.likes = item.likes;
+							that.title = item.title;
+							that.$emit('getTitle', item.title);
 						}
-
-
-						// that.data.createdtime = API.getcreatedtime(parsed_item.created);
-						// that.setData({
-						//   createdtime: that.data.createdtime
-						// });
 					},
 				});
 			},

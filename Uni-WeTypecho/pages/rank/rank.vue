@@ -16,6 +16,7 @@
 						<text class="cuIcon-attentionfill padding-lr-xs"></text>{{item.views}}
 						<text class="cuIcon-likefill padding-lr-xs"></text> {{item.likes}}
 						<text class="cuIcon-communityfill padding-lr-xs"></text> {{item.comments}}
+						<text class="cuIcon-timefill padding-lr-xs"></text>{{item.time}}
 					</view>
 				</view>
 			</view>
@@ -41,25 +42,22 @@
 		},
 		methods: {
 			tabSelect(e) {
-				console.log(e.currentTarget.dataset.id);
-				console.log(typeof e.currentTarget.dataset.id);
 				this.fetchRank(e.currentTarget.dataset.id);
 				this.tabCur = e.currentTarget.dataset.id;
-				// this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
 			},
 			fetchRank(idx) {
 				let that = this;
 				Net.request({
-					url: API.GetRankedPosts(idx),
+					url: API.getRankedPosts(idx),
+					showLoading: true,
 					success: function(res) {
 						let datas = res.data.data;
 						let rank = 1;
 						that.articleList = datas.map(function(ori_item) {
-							let item = API.ParseItem(ori_item);
-							item.time = API.getcreatedtime(item.created);
+							let item = API.parsePost(ori_item);
+							item.time = API.getCreatedTime(item.created);
 							item.comments = item.commentsNum;
 							item.rank = rank++;
-							console.log(item);
 							return item;
 						});
 					}
