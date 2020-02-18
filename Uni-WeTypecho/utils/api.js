@@ -118,6 +118,9 @@ module.exports = {
 			// #ifdef APP-PLUS
 			"&mp=app"
 			// #endif
+			// #ifdef H5
+			"&mp=app"
+			// #endif
 		);
 	},
 	getLikedNum: function(cid) {

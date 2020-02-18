@@ -20,6 +20,9 @@
 	// #ifdef APP-PLUS
 	import commentsender from '@/components/commentsender/app.vue';
 	// #endif
+	// #ifdef H5
+	import commentsender from '@/components/commentsender/h5.vue';
+	// #endif
 	export default {
 		data() {
 			return {
@@ -38,7 +41,6 @@
 			this.showComments = getApp().globalData.showComments;
 			this.cid = option.cid;
 			this.title = option.title;
-			this.fetchPost();
 		},
 		methods: {
 			getTitle(e) {

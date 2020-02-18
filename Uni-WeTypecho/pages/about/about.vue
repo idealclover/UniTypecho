@@ -25,6 +25,9 @@
 	// #ifdef APP-PLUS
 	import commentsender from '@/components/commentsender/app.vue';
 	// #endif
+	// #ifdef H5
+	import commentsender from '@/components/commentsender/h5.vue';
+	// #endif
 	import cfg from "@/config.js";
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'

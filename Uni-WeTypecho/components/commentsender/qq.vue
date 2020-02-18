@@ -1,14 +1,14 @@
 <template name="commentsender">
 	<view>
-		<view class="cu-bar foot input" :style="[{bottom: inputBottom+'rpx'}]">
-			<input class="solid-bottom" :adjust-position="false" :focus="false" maxlength="300" placeholder="说些什么吧!" v-model="value"></input>
+		<view class="cu-bar input foot" :style="[{bottom: isPage ? inputBottom + tempMargin +'px': inputBottom + 'px'}]">
+			<input class="solid-bottom" :adjust-position="false" :focus="false" maxlength="300" placeholder="说些什么吧!" v-model="value"
+			 @focus="inputFocus" @blur="inputBlur"></input>
 			<button class="send cu-btn shadow" :class="'bg-' + color" @click="sendComment">发送</button>
 			<button class="share" @click="sendLike">
 				<view class="action"><text class="shareText" :class="isLike ? 'cuIcon-appreciatefill text-' + color :'cuIcon-appreciate text-grey'"></text></view>
 			</button>
 			<button class="share" open-type="share">
 				<view class="action"><text class="shareText cuIcon-share text-grey"></text></view>
-			</button>
 			</button>
 		</view>
 		<view class="cu-modal" :class="modalName=='DialogModal1'?'show':''">
@@ -40,7 +40,7 @@
 	import Net from '@/utils/net.js';
 	import Util from '@/utils/util.js';
 	import Login from '@/utils/login.js';
-	
+
 	export default {
 		props: ['cid', 'isPage'],
 		data() {
@@ -49,8 +49,9 @@
 				isLike: false,
 				color: cfg.getcolor,
 				modalName: null,
-				inputBottom: this.isPage ? 100 : 0,
-				tempAction: ""
+				inputBottom: 0,
+				tempAction: "",
+				tempMargin: "40"
 			};
 		},
 		mounted() {
@@ -71,16 +72,18 @@
 					success: function() {
 						that.getLikeStatus();
 						console.log('success');
-						if(that.tempAction == "like") that.sendLike();
-						else if(that.tempAction == "comment") that.sendComment();
+						if (that.tempAction == "like") that.sendLike();
+						else if (that.tempAction == "comment") that.sendComment();
 					}
 				})
 			},
 			inputFocus(e) {
+				this.tempMargin = 0
 				this.inputBottom = e.detail.height
 			},
 			inputBlur(e) {
-				this.inputBottom = this.isPage ? 100 : 0
+				this.tempMargin = "40"
+				this.inputBottom = 0
 			},
 			// userSubmit: function(e) {
 			// 	console.log(e.detail.formId);

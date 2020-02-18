@@ -3,7 +3,11 @@
 		<swiper class="screen-swiper square-dot" v-if="!swiperList.length == 0" :indicator-dots="true" :circular="true"
 		 :autoplay="true" interval="5000" duration="500">
 			<swiper-item v-for="(item,index) in swiperList" :key="index" class="cur" @click="openArticle(item.cid, item.title)">
-				<image :src="item.src" mode="aspectFill"></image>
+				<view class="bg-img flex align-end" mode="aspectFill" :style="[{backgroundImage: 'url(' + item.src + ')', height: '100%'}]">
+					<view class="bg-shadeBottom padding flex-sub">
+						{{item.title}}
+					</view>
+				</view>
 			</swiper-item>
 		</swiper>
 		<scroll-view scroll-x class="bg-white nav">

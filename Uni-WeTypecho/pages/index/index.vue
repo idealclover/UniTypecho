@@ -39,6 +39,7 @@
 			}
 		},
 		onLoad: function(option) {
+			// #ifdef MP
 			uni.getUserInfo({
 				provider: 'weixin',
 				success: function(res) {
@@ -54,6 +55,7 @@
 					});
 				}
 			});
+			// #endif
 			Net.request({
 				url: API.getConfig(),
 				success: function(res) {
@@ -69,4 +71,7 @@
 </script>
 
 <style>
+	.cu-bar.tabbar {
+		height: 40px;
+	}
 </style>
