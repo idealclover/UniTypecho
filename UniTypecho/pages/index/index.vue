@@ -66,7 +66,14 @@
 					getApp().globalData.showShare = showShare;
 				}
 			});
+		},
+		// #ifdef MP-QQ
+		onShareAppMessage: function () {
+		    qq.showShareMenu({
+				showShareItems: ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
+		    })
 		}
+		// #endif
 	}
 </script>
 

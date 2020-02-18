@@ -51,6 +51,11 @@
 			onRefreshComments() {
 				this.refreshComments = !this.refreshComments;
 			}
+		},
+		onShareAppMessage: function () {
+		    qq.showShareMenu({
+		    showShareItems: ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
+		    })
 		}
 	}
 </script>
