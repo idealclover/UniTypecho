@@ -45,7 +45,7 @@
 	</view>
 </template>
 <script>
-	import uParse from '@/libs/uParse/wxParse.vue'
+	import uParse from '@/libs/uParse/parse.vue'
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
 	import Util from '@/utils/util.js'
@@ -93,12 +93,16 @@
 								let avatarList = [];
 								for(let i in datas){
 									let avatarUrl = datas[i]['avatarUrl'];
-									if(avatarUrl != "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epCic4ltiabot0iaeWCzmpxqSyk31A9m5zxeOUUuUYegYf42pA02ObA6hibOiam7c7MrQ0EFdqRVVXavRA/132")
 									avatarList.push(avatarUrl);
 								}
 								let leftAvatars = that.likeNum - avatarList.length
 								for(let i = 0; i < leftAvatars; i++){
+									// #ifdef APP-PLUS
+									avatarList.push('static/images/default.jpg');
+									// #endif
+									// #ifndef APP-PLUS
 									avatarList.push('/static/images/default.jpg');
+									// #endif
 								};
 								avatarList.reverse();
 								that.avatarList = avatarList;
@@ -117,7 +121,12 @@
 								item.author = "游客";
 							}
 							if (Util.isNull(item.authorImg)) {
+								// #ifdef APP-PLUS
+								item.authorImg = "static/images/default.jpg";
+								// #endif
+								// #ifndef APP-PLUS
 								item.authorImg = "/static/images/default.jpg";
+								// #endif
 							}
 							item.createdtime = API.getCreatedTime(item.created);
 							return item;

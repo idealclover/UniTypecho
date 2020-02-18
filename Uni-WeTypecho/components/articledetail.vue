@@ -7,12 +7,12 @@
 			<text class="cuIcon-communityfill padding-lr-xs"></text> {{comments}}
 			<text class="cuIcon-timefill padding-lr-xs"></text>{{time}}
 		</view>
-		<hr  v-if="showTools"/>
+		<hr v-if="showTools" />
 		<uParse :content="article" @preview="preview" @navigate="navigate" />
 	</view>
 </template>
 <script>
-	import uParse from '@/libs/uParse/wxParse.vue'
+	import uParse from '@/libs/uParse/parse.vue'
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
 	import Util from '@/utils/util.js'
@@ -30,7 +30,7 @@
 		},
 		watch: {
 			cid: function(cid) {
-				if(this.isPage) this.getdetails(cid);
+				if (this.isPage) this.getdetails(cid);
 			}
 		},
 		data() {
@@ -45,7 +45,7 @@
 		},
 		methods: {
 			getdetails(cid) {
-				if(Util.isNull(cid)) return;
+				if (Util.isNull(cid)) return;
 				let that = this;
 				Net.request({
 					url: that.isPage ? API.getPagesByCid(cid) : API.getPostsByCid(cid),
@@ -68,11 +68,19 @@
 			},
 			preview(src, e) {
 				// do something
+				console.log(src);
 			},
 			navigate(href, e) {
 				// do something
+				console.log(href);
+				// #ifdef APP-PLUS
+				// plus.runtime.openURL(href, function(res) {
+				// 	console.log(res);
+				// });
+				// #endif
 			}
 		}
 	}
 </script>
 <style>
+</style>

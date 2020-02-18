@@ -16,7 +16,7 @@
 	/*每个页面公共css */
 	@import "libs/colorui/main.css";
 	@import "libs/colorui/icon.css";
-	@import "libs/uParse/wxParse.css";
+	@import "libs/uParse/parse.css";
 	page{
 	  padding-bottom: 100upx;
 	}

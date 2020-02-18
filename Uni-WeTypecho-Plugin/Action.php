@@ -398,26 +398,47 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
     {
         $sec = self::GET('apisec', 'null');
         self::checkApisec($sec);
-        $cid = self::GET('cid', -1);
-        $author = self::GET('author', "None");
-        $text = self::GET('text', "None");
-        $parent = self::GET('parent', 0);
-        $headicon = self::GET('icon', "NULL");
-        $formid = self::GET('formid', "NULL");
-        $openid = self::GET('openid', "NULL");
 
-        $coid = $this->db->query($this->db->insert('table.comments')->rows(array(
-            'cid' => $cid, 'created' => time(), 'author' => $author, 'authorId' => '0',
-            'ownerId' => '1', 'mail' => $openid . '@wx.com', 'ip' => '8.8.8.8', 'agent' => 'wx-miniprogram', 'text' => $text, 'type' => 'comment',
-            'status' => 'approved', 'parent' => $parent,
-            'authorImg' => $headicon
-        )));
-        if ($coid > 0) {
-            $row = $this->db->fetchRow($this->db->select('commentsNum')->from('table.contents')->where('cid = ?', $cid));
-            $this->db->query($this->db->update('table.contents')->rows(array('commentsNum' => (int) $row['commentsNum'] + 1))->where('cid = ?', $cid));
-            $this->db->query($this->db->update('table.unitypecho')->rows(array('formid' => $formid))->where('openid = ?', $openid));
+        $type = self::GET('type', 'mp');
+        if($type == 'mp') {
+            $cid = self::GET('cid', -1);
+            $author = self::GET('author', "None");
+            $text = self::GET('text', "None");
+            $parent = self::GET('parent', 0);
+            $headicon = self::GET('icon', "NULL");
+            $formid = self::GET('formid', "NULL");
+            $openid = self::GET('openid', "NULL");
+
+            $coid = $this->db->query($this->db->insert('table.comments')->rows(array(
+                'cid' => $cid, 'created' => time(), 'author' => $author, 'authorId' => '0',
+                'ownerId' => '1', 'mail' => $openid . '@wx.com', 'ip' => '8.8.8.8', 'agent' => 'wx-miniprogram', 'text' => $text, 'type' => 'comment',
+                'status' => 'approved', 'parent' => $parent,
+                'authorImg' => $headicon
+            )));
+            if ($coid > 0) {
+                $row = $this->db->fetchRow($this->db->select('commentsNum')->from('table.contents')->where('cid = ?', $cid));
+                $this->db->query($this->db->update('table.contents')->rows(array('commentsNum' => (int) $row['commentsNum'] + 1))->where('cid = ?', $cid));
+                $this->db->query($this->db->update('table.unitypecho')->rows(array('formid' => $formid))->where('openid = ?', $openid));
+            }
+            $this->export($coid);
+        } else if($type == "app") {
+            $cid = self::GET('cid', -1);
+            $author = self::GET('name', "None");
+            $parent = self::GET('parent', 0);
+            $mail = self::GET('mail', "None");
+            $url = self::GET('website', NULL);
+            $text = self::GET('text', "None");
+            $coid = $this->db->query($this->db->insert('table.comments')->rows(array(
+                'cid' => $cid, 'created' => time(), 'author' => $author, 'authorId' => '0',
+                'ownerId' => '1', 'mail' => $mail, 'ip' => '8.8.8.8', 'agent' => 'app', 'text' => $text, 'type' => 'comment',
+                'status' => 'approved', 'parent' => $parent
+            )));
+            if ($coid > 0) {
+                $row = $this->db->fetchRow($this->db->select('commentsNum')->from('table.contents')->where('cid = ?', $cid));
+                $this->db->query($this->db->update('table.contents')->rows(array('commentsNum' => (int) $row['commentsNum'] + 1))->where('cid = ?', $cid));
+            }
+            $this->export($coid);
         }
-        $this->export($coid);
     }
 
     private function defaults()
