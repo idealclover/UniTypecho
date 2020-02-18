@@ -1,8 +1,8 @@
 {
-  "name": "Uni-WeTypecho",
+  "name": "UniTypecho",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/idealclover/Uni-WeTypecho.git",
+  "repository": "https://github.com/idealclover/UniTypecho.git",
   "author": "idealclover",
   "license": "MIT",
   "dependencies": {

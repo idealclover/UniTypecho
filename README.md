@@ -17,9 +17,16 @@ UniTypecho 的安装非常简单，只需进行简单的插件与前端配置，
 
 ## 预览 Preview
 
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic1.png)
+
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic2.png)
+
 微信小程序：暂未过审上架
+
 QQ 小程序：暂未过审上架
+
 Android 应用：[酷安](https://www.coolapk.com/apk/255470) 暂未上架
+
 H5：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
 ## 特性 Features
@@ -48,10 +55,8 @@ H5：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 	1. 下载 IDE [HBuilder X](https://www.dcloud.io/hbuilderx.html) 并安装，打开 ```UniTypecho``` 文件夹中的项目
 	2. 复制 ```config.js.example``` 为 ```config.js```，填写域名，密钥，主题配置信息（注：如 Typecho 未配置地址重写则需在域名后加入 /index.php）
 	3. 复制 ```manifest.json.example``` 为 ```manifest.json```，配置 DCloud APPID 信息等
-	4. 如果希望在小程序上生成，则首先下载对应平台开发者工具，后 ```运行 - 运行到小程序``` 进行调试，并添加合法域名
-	5. 如果希望在 H5 上生成，则直接 ```运行 - 运行到浏览器```
-	6. 如果希望在手机上运行，则连接手机 ```运行 - 运行到手机或模拟器```
-	7. 调试成功后即可发布
+	4. 使用 npm/yarn，安装项目依赖
+	5. 针对不同平台，下载开发者平台工具进行调试
 
 ## 遇到了问题？Get Stucked?
 
