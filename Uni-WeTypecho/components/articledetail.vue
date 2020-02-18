@@ -13,6 +13,7 @@
 </template>
 <script>
 	import uParse from '@/libs/uParse/parse.vue'
+	import cfg from '@/config.js'
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
 	import Util from '@/utils/util.js'
@@ -72,11 +73,23 @@
 			},
 			navigate(href, e) {
 				// do something
+				// console.log(href);
+				let re = new RegExp("^https:\/\/" + cfg.getdomain + "\/archives\/([0-9]*)\/?");
+				let str = href.match(re);
+				if(!Util.isNull(str)) {
+					uni.navigateTo({
+						url: '/pages/post/post?cid=' + str[1]
+					});
+					return;
+				}
+				// #ifdef H5
 				console.log(href);
+				window.open(href);
+				// #endif
 				// #ifdef APP-PLUS
-				// plus.runtime.openURL(href, function(res) {
-				// 	console.log(res);
-				// });
+				plus.runtime.openURL(href, function(res) {
+					console.log(res);
+				});
 				// #endif
 			}
 		}

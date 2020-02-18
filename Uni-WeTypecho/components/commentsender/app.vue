@@ -1,37 +1,57 @@
 <template name="commentsender">
 	<view>
-		<view class="cu-bar foot input" :style="isPage? 'padding-bottom: 100rpx;':''">
-			<input class="solid-bottom" :adjust-position="false" :focus="false" maxlength="300" placeholder="说些什么吧!" @input="onInput"></input>
+		<view class="cu-bar input foot" :style="[{bottom: isPage ? inputBottom + tempMargin +'px': inputBottom + 'px'}]">
+			<input class="solid-bottom" :adjust-position="false" :focus="false" maxlength="300" placeholder="说些什么吧!" v-model="value"
+			 @focus="inputFocus" @blur="inputBlur"></input>
 			<button class="send cu-btn shadow" :class="'bg-' + color" @click="sendComment">发送</button>
 			<button class="share" @click="sendLike">
 				<view class="action"><text class="shareText" :class="isLike ? 'cuIcon-appreciatefill text-' + color :'cuIcon-appreciate text-grey'"></text></view>
 			</button>
-			<button class="share" open-type="share">
+			<!-- <button class="share" open-type="share">
 				<view class="action"><text class="shareText cuIcon-share text-grey"></text></view>
-			</button>
-			</button>
-			<button class="share">
-				<view class="action"><text class="shareText cuIcon-forward text-grey"></text></view>
-			</button>
+			</button> -->
 		</view>
 		<view class="cu-modal" :class="modalName=='DialogModal1'?'show':''">
 			<view class="cu-dialog">
 				<view class="cu-bar bg-white justify-end">
-					<view class="content">授权登录</view>
+					<view class="content">起个名字吧！</view>
 					<view class="action" @tap="hideModal">
 						<text class="cuIcon-close text-red"></text>
 					</view>
 				</view>
-				<view class="padding-xl">
-					1、评论，点赞需要授权登录<br />
-					2、授权会获取您的头像和昵称
-				</view>
-				<view class="cu-bar bg-white justify-end">
-					<view class="action">
-						<button class="cu-btn line-green text-green" @tap="hideModal">取消</button>
-						<button class="cu-btn bg-green margin-left" @tap="hideModal" open-type="getUserInfo">确定</button>
+				<form @submit="comfirmModal">
+					<view class="text-left text-sm padding" v-if="needName">
+						<text class="text-red">*请输入昵称</text>
 					</view>
-				</view>
+					<view class="cu-form-group">
+						<view class="nameInput">昵称（必填）*</view>
+						<input name="nameInput"></input>
+					</view>
+					<view class="text-left text-sm padding" v-if="needMail">
+						<text class="text-red">*请输入正确邮箱</text>
+					</view>
+					<view class="cu-form-group">
+						<view class="mailInput">邮箱（必填）*</view>
+						<input name="mailInput"></input>
+					</view>
+					<view class="cu-form-group">
+						<view class="websiteInput">网站（选填）</view>
+						<input name="websiteInput"></input>
+					</view>
+					<view class="text-left text-sm padding">
+						<text class="text-red">*您的邮箱信息不会被公开</text>
+					</view>
+					<!-- <view class="cu-form-group">
+						<view class="isRememberSwitch">记住我</view>
+						<switch @change="IsRemember" :class="isRemember?'checked':''" :checked="isRemember?true:false"></switch>
+					</view> -->
+					<view class="cu-bar bg-white justify-end">
+						<view class="action">
+							<button :class="'cu-btn line-' + color + ' text-' + color" @tap="hideModal">取消</button>
+							<button :class="'cu-btn bg-' + color +  ' margin-left'" form-type="submit">确定</button>
+						</view>
+					</view>
+				</form>
 			</view>
 		</view>
 	</view>
@@ -50,53 +70,112 @@
 				value: "",
 				isLike: false,
 				color: cfg.getcolor,
-				modalName: null
+				modalName: null,
+				inputBottom: 0,
+				tempAction: "",
+				tempMargin: "40",
+				isRemember: true,
+				needName: false,
+				needMail: false
 			};
 		},
+		mounted() {
+			this.getLikeStatus();
+		},
 		methods: {
-			onInput(e) {
-				// console.log(e.detail['value'])
-				this.value = e.detail['value'];
-			},
 			showModal() {
 				this.modalName = "DialogModal1"
 			},
 			hideModal() {
 				this.modalName = null
 			},
-			// userSubmit: function(e) {
-			// 	console.log(e.detail.formId);
-			// },
-			isLogin() {
-				return (
-					getApp().globalData.userInfo != null &&
-					typeof getApp().globalData.userInfo.openid != "undefined" &&
-					getApp().globalData.userInfo.openid != undefined &&
-					getApp().globalData.userInfo.openid.length >= 28
-				);
+			comfirmModal(res) {
+				let data = res.detail.value;
+				if (Util.isNull(data.nameInput)) {
+					this.needName = true;
+				} else {
+					this.needName = false;
+				}
+				let re =
+					/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				if (Util.isNull(data.mailInput) || !re.test(String(data.mailInput).toLowerCase())) {
+					this.needMail = true;
+				} else {
+					this.needMail = false;
+				}
+				if (this.needName || this.needMail) return;
+
+				let that = this;
+				if (this.isRemember) {
+					uni.setStorage({
+						key: 'userInfo',
+						data: {
+							'name': data.nameInput,
+							'mail': data.mailInput,
+							'website': data.websiteInput,
+						},
+						success: function() {
+							console.log(that.tempAction);
+							that.modalName = null;
+							if (that.tempAction == "like") that.sendLike();
+							else if (that.tempAction == "comment") that.sendComment();
+						}
+					});
+				}
+			},
+			inputFocus(e) {
+				this.tempMargin = 0
+				this.inputBottom = e.detail.height
+			},
+			inputBlur(e) {
+				this.tempMargin = "40"
+				this.inputBottom = 0
+			},
+			IsRemember(e) {
+				this.isRemember = e.detail.value
+			},
+			getLikeStatus() {
+				let that = this;
+				uni.getStorage({
+					key: 'userInfo',
+					success: function(res) {
+						let userInfo = res.data;
+						Net.request({
+							url: API.getLikeStatus(that.cid, userInfo.mail),
+							showLoading: true,
+							success: function(res) {
+								let datas = res.data.data;
+								that.isLike = datas;
+							}
+						});
+					}
+				})
 			},
 			sendLike() {
-				console.log(this.value);
-				if (!this.isLogin()) {
-					this.showModal();
-					return;
-				}
-				console.log(this.cid);
-				console.log('login success');
 				let that = this;
-				Net.request({
-					url: API.postLike(that.cid, getApp().globalData.userInfo.openid),
+				uni.getStorage({
+					key: 'userInfo',
 					success: function(res) {
-						var datas = res.data.data;
-						var status = datas.status;
-						console.log(datas);
-						// that.data.item.likes = datas[0].likes;
-						that.isLike = !that.isLike;
+						let userInfo = res.data;
+						Net.request({
+							url: API.postLike(that.cid, userInfo.mail),
+							showLoading: true,
+							success: function(res) {
+								var datas = res.data.data;
+								var status = datas.status;
+								that.$emit('onRefreshComments');
+								that.isLike = !that.isLike;
+							}
+						});
+					},
+					fail: function() {
+						that.tempAction = "like";
+						that.showModal();
 					}
-				});
+				})
 			},
 			sendComment() {
-				console.log(this.value);
+				this.tempAction = "comment";
 				if (this.value == "") {
 					uni.showToast({
 						title: "请输入评论内容",
@@ -104,36 +183,39 @@
 						duration: 2000
 					});
 					return;
-				}
-				if (!this.isLogin()) {
-					this.showModal();
-					return;
-				}
-				console.log(this.cid);
-				console.log('login success');
+				};
 				let that = this;
-				Net.request({
-					showLoading: true,
-					url: API.postComment(
-						that.cid,
-						getApp().globalData.userInfo.openid,
-						getApp().globalData.userInfo.nickName,
-						that.value,
-						0,
-						getApp().globalData.userInfo.avatarUrl,
-						// e.detail.formId
-					),
+				uni.getStorage({
+					key: 'userInfo',
 					success: function(res) {
-						uni.showToast({
-							title: "评论成功",
-							duration: 2000
+						let userInfo = res.data;
+						Net.request({
+							showLoading: true,
+							url: API.postComment(
+								that.cid,
+								userInfo.name,
+								userInfo.mail,
+								userInfo.website,
+								that.value,
+								0,
+							),
+							success: function(res) {
+								uni.showToast({
+									title: "评论成功",
+									duration: 2000
+								});
+								console.log('success');
+								that.$emit('onRefreshComments');
+								that.value = ""
+							}
 						});
-						console.log('success')
-						that.value = ""
-						// TODO
-						// that.getcomments(that.data.item.cid);
+					},
+					fail: function() {
+						that.tempAction = "comment";
+						that.showModal();
 					}
 				});
+
 			}
 		}
 	}
@@ -143,7 +225,7 @@
 	.send {
 		margin-right: 10rpx;
 	}
-	
+
 	.share::after {
 		border: none;
 	}
@@ -154,11 +236,11 @@
 	}
 
 	.share .action,
-	.share .cuIcon{
-		margin: 0!important;
+	.share .cuIcon {
+		margin: 0 !important;
 	}
-	
-	.shareText{
-		margin: 0 10rpx!important;
+
+	.shareText {
+		margin: 0 10rpx !important;
 	}
 </style>

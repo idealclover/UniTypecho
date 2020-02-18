@@ -130,34 +130,32 @@ module.exports = {
 		return this.appendAPISEC(API_URL + "getlikedlist?cid=" + cid);
 	},
 	getLikeStatus: function(cid, openid) {
-	   return this.appendAPISEC(
-	     API_URL + "getLikeStatus?cid=" + cid + "&openid=" + openid
-	   );
-	 },
+		return this.appendAPISEC(
+			API_URL + "getLikeStatus?cid=" + cid + "&openid=" + openid
+		);
+	},
 	postLike: function(cid, openid) {
 		return this.appendAPISEC(
 			API_URL + "postLike?cid=" + cid + "&openid=" + openid
 		);
 	},
+	//#ifdef MP 
 	postComment: function(cid, openid, author, text, parent, icon, formid) {
 		return this.appendAPISEC(
-			API_URL +
-			"postcomment?cid=" +
-			cid +
-			"&openid=" +
-			openid +
-			"&author=" +
-			author +
-			"&text=" +
-			text +
-			"&parent=" +
-			parent +
-			"&icon=" +
-			icon +
-			"&formid=" +
-			formid
+			API_URL + "postcomment?cid=" + cid + "&openid=" + openid + "&author=" + author + "&text=" + text + "&parent=" +
+			parent + "&icon=" + icon + "&formid=" + formid
 		);
 	},
+	//#endif
+	//#ifndef MP
+	postComment: function(cid, name, mail, website, text, parent){
+		return this.appendAPISEC(
+			API_URL + "postcomment?cid=" + cid + "&name=" + name + "&mail=" + mail + "&text=" + text + "&parent=" +
+			parent + "&website=" + website + "&type=app"
+		);
+	}
+	//#endif
+	
 	//  GetPosts: function() {
 	//    return this.appendAPISEC(API_URL + "posts?&pageSize=10");
 	//  },
