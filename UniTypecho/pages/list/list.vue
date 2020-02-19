@@ -76,10 +76,10 @@
 						datas.forEach(function(data) {
 							let result = {};
 							data["thumb"].forEach(function(thumb) {
+								result['cid'] = data['cid'];
+								result['title'] = data['title'];
+								result['ispost'] = data['type'] == 'post' ? true : false;
 								if (thumb.name === "thumb") {
-									result['cid'] = data['cid'];
-									result['title'] = data['title'];
-									result['ispost'] = data['type'] == 'post' ? true : false;
 									result['src'] = thumb['str_value'];
 								}
 							});
