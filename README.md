@@ -21,11 +21,11 @@ UniTypecho 的安装非常简单，只需进行简单的插件与前端配置，
 
 ![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic2.png)
 
-微信小程序：暂未过审上架
+微信小程序 & QQ 小程序：
 
-QQ 小程序：暂未过审上架
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/qrcode.png)
 
-Android 应用：[酷安](https://www.coolapk.com/apk/255470) 暂未上架
+Android 应用：[酷安](https://www.coolapk.com/apk/255491) 暂未上架
 
 H5：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
@@ -57,6 +57,8 @@ H5：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 	3. 复制 ```manifest.json.example``` 为 ```manifest.json```，配置 DCloud APPID 信息等
 	4. 使用 npm/yarn，安装项目依赖
 	5. 针对不同平台，下载开发者平台工具进行调试
+
+> 注：百度小程序不允许个人申请；字节跳动小程序申请需审核；支付宝及钉钉小程序类目暂不包括内容类目
 
 ## 遇到了问题？Get Stucked?
 
