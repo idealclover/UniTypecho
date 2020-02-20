@@ -23,6 +23,9 @@
 	// #ifdef H5
 	import commentsender from '@/components/commentsender/h5.vue';
 	// #endif
+	// #ifdef MP-TOUTIAO
+	import commentsender from '@/components/commentsender/toutiao.vue';
+	// #endif
 	export default {
 		data() {
 			return {
@@ -40,7 +43,7 @@
 		onLoad: function(option) {
 			this.showComments = getApp().globalData.showComments;
 			this.cid = option.cid;
-			this.title = option.title;
+			this.title = "";
 		},
 		methods: {
 			getTitle(e) {
@@ -54,7 +57,7 @@
 		},
 		onShareAppMessage: function () {
 		    qq.showShareMenu({
-		    showShareItems: ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
+				showShareItems: ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
 		    })
 		}
 	}

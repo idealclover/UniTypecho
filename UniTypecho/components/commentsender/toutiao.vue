@@ -10,9 +10,6 @@
 			<button class="share" open-type="share">
 				<view class="action"><text class="shareText cuIcon-share text-grey"></text></view>
 			</button>
-			<!-- <button class="share">
-				<view class="action"><text class="shareText cuIcon-forward text-grey"></text></view>
-			</button> -->
 		</view>
 		<view class="cu-modal" :class="modalName=='DialogModal1'?'show':''">
 			<view class="cu-dialog">
@@ -161,18 +158,6 @@
 						console.log('success');
 						that.$emit('onRefreshComments');
 						that.value = ""
-						uni.requestSubscribeMessage({
-						  tmplIds: ['fqfmD0pRu33DydKLJQBySIa2YljtoJba-1khdh0XdMw'],
-						  success (res) {
-							  uni.showToast({
-							  	title: "订阅成功",
-							  	duration: 2000
-							  });
-						  },
-						  fail (e) {
-							  console.log(e);
-						  }
-						})
 					}
 				});
 			}

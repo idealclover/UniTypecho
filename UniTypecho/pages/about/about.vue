@@ -28,6 +28,9 @@
 	// #ifdef H5
 	import commentsender from '@/components/commentsender/h5.vue';
 	// #endif
+	// #ifdef MP-TOUTIAO
+	import commentsender from '@/components/commentsender/toutiao.vue';
+	// #endif
 	import cfg from "@/config.js";
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'

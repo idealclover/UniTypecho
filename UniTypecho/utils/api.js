@@ -115,6 +115,9 @@ module.exports = {
 			// #ifdef MP-QQ
 			"&mp=qq"
 			// #endif
+			// #ifdef MP-TOUTIAO
+			"&mp=toutiao"
+			// #endif
 			// #ifdef APP-PLUS
 			"&mp=app"
 			// #endif

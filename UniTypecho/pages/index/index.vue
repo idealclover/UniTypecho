@@ -24,6 +24,7 @@
 	import cfg from "@/config.js";
 	import API from '@/utils/api.js';
 	import Net from '@/utils/net.js';
+	import Util from '@/utils/util.js'
 	import Login from '@/utils/login.js';
 
 	export default {
@@ -66,6 +67,14 @@
 					getApp().globalData.showShare = showShare;
 				}
 			});
+			this.cid = option.cid;
+		},
+		onReady: function() {
+			if(!Util.isNull(this.cid)){
+				uni.navigateTo({
+					url: '../post/post?cid=' + this.cid
+				})
+			}
 		},
 		// #ifdef MP-QQ
 		onShareAppMessage: function () {

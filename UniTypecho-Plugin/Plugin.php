@@ -13,11 +13,12 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
 
     public static function activate()
     {
+        Typecho_Plugin::factory('Widget_Feedback')->finishComment = array('UniTypecho_Plugin', 'sendFeedback');
         Helper::addRoute("uniapi", "/uniapi/[type]", "UniTypecho_Action", 'action');
         $db = Typecho_Db::get();
         $prefix = $db->getPrefix();
-		$type = explode('_', $db->getAdapterName());
-		$type = array_pop($type);
+        $type = explode('_', $db->getAdapterName());
+        $type = array_pop($type);
         //创建用户数据库
         $scripts = file_get_contents('usr/plugins/UniTypecho/sql/unitypecho.sql');
         $scripts = str_replace('typecho_', $prefix, $scripts);
@@ -100,6 +101,8 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
         $form->addInput($appId);
         $appSecret = new Typecho_Widget_Helper_Form_Element_Text('appSecret', NULL, 'xxx', _t('微信小程序的APP secret ID'),  _t('小程序的APP secret ID'));
         $form->addInput($appSecret);
+        $templateId = new Typecho_Widget_Helper_Form_Element_Text('templateId', NULL, 'xxx', _t('微信小程序订阅模板的 template ID'),  _t('小程序的 template ID'));
+        $form->addInput($templateId);
         $qqAppId = new Typecho_Widget_Helper_Form_Element_Text('qqAppId', NULL, 'xxx', _t('QQ 小程序的APPID'),  _t('小程序的APP ID'));
         $form->addInput($qqAppId);
         $qqAppSecret = new Typecho_Widget_Helper_Form_Element_Text('qqAppSecret', NULL, 'xxx', _t('QQ 小程序的APP secret ID'),  _t('小程序的APP secret ID'));
@@ -116,5 +119,76 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
 
     public static function personalConfig(Typecho_Widget_Helper_Form $form)
     {
+    }
+    public static function sendFeedback($comment)
+    {
+         $cfg = array(
+             'cid'       => $comment->cid,
+             'author'    => $comment->author,
+             'authorId'  => $comment->authorId,
+             'ownerId'   => $comment->ownerId,
+             'title'     => $comment->title,
+             'text'      => $comment->text,
+             'mail'      => $comment->mail,
+             'status'    => $comment->status,
+             'parent'    => $comment->parent,
+         );
+
+
+         if($comment->status != "approved" || $comment->parent == "0") return;
+
+         $appId = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->appId;
+         $appSecret = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->appSecret;
+         $templateId = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->templateId;
+
+         if($templateId == null || $templateId == "") return;
+
+         $db  = Typecho_Db::get();
+         $original = $db->fetchRow($db->select('author', 'mail', 'text')->from('table.comments')->where('coid = ?', $comment->parent));
+         if (preg_match( '/(.*)@wx\.com/', $original['mail'], $matches)){
+             // print('qwq');
+             $openid = $matches[1];
+             $url = sprintf('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s', $appId, $appSecret);
+             $info = file_get_contents($url);
+             $json = json_decode($info); //对json数据解码
+             $arr = get_object_vars($json);
+             $access_token = $arr['access_token'];
+             if($access_token == null) return;
+             $url = sprintf('https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=%s', $access_token);
+             if(mb_strlen($cfg['title']) > 20) $cfg['title'] = mb_substr($cfg['title'] , 0 , 17, 'utf-8') . "...";
+             if(mb_strlen($cfg['author']) > 10) $cfg['author'] = mb_substr($cfg['author'], 0, 10, 'utf-8');
+             if(mb_strlen($cfg['text']) > 20) $cfg['text'] = mb_substr($cfg['text'], 0, 17, 'utf-8') . "...";
+
+             $data = array(
+                 'touser' => $openid,
+                 "template_id" => $templateId,
+                 'data' => array(
+                     "thing4" => array(
+                         "value" => $cfg["title"]
+                     ),
+                     "name1" => array(
+                         "value" => $cfg['author']
+                     ),
+                     "thing2" => array(
+                         "value" => $cfg['text']
+                     )
+                 )
+             );
+
+             $result = json_encode($data,true);
+             $ch = curl_init();
+
+             curl_setopt($ch, CURLOPT_URL, $url);
+             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');
+             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+             curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+             curl_setopt($ch, CURLOPT_POSTFIELDS, $result);
+             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+             $info = curl_exec($ch);
+             return $info;
+         }
     }
 }

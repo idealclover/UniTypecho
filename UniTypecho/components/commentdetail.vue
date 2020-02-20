@@ -28,9 +28,9 @@
 					<view class="text-gray text-content text-df" style="word-break: break-all;">
 						<uParse :content="item.text" />
 					</view>
-					<view class="padding-sm radius margin-top-sm" v-for="(citem,cindex) in item.replay" :key="cindex">
-						<view>{{citem.author}}: </view>
-						<uParse :content="citem.text" />
+					<view class="padding-sm radius margin-top-sm solid" v-for="(citem,cindex) in item.replies" :key="cindex">
+						<view class="text-grey">{{citem.author}}: </view>
+						<uParse class="text-white" :content="citem.text" />
 					</view>
 					<view class="margin-top-sm flex justify-between">
 						<view class="text-gray text-df">{{item.createdtime}}</view>

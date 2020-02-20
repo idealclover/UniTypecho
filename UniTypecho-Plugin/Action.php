@@ -245,7 +245,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
         foreach ($comments as $comment) {
             if ($comment['parent'] != 0) {
                 $parent = $comment['parent'];
-                $temp = $this->db->fetchAll($this->db->select('cid', 'coid', 'created', 'author', 'text', 'parent', 'authorImg')->from('table.comments')->where('cid = ?', $cid)->where('coid = ?', $parent)->where('status = ?', 'approved')->order('table.comments.created', Typecho_Db::SORT_DESC));
+                $temp = $this->db->fetchAll($this->db->select('cid', 'coid', 'created', 'author', 'text', 'parent', 'authorImg', 'mail')->from('table.comments')->where('cid = ?', $cid)->where('coid = ?', $parent)->where('status = ?', 'approved')->order('table.comments.created', Typecho_Db::SORT_DESC));
                 if (sizeof($temp) > 0) {
                     while ($temp[0]['parent'] != 0) {
                         $parent = $temp[0]['parent'];
@@ -254,7 +254,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
                     for ($i = 0; $i < sizeof($result); $i++) {
                         if ($result[$i]['coid'] == $temp[0]['coid']) {
                             $comment['parentitem'] = $this->db->fetchAll($this->db->select('cid', 'coid', 'created', 'author', 'text', 'parent', 'authorImg')->from('table.comments')->where('cid = ?', $cid)->where('coid = ?', $comment['parent'])->where('status = ?', 'approved')->order('table.comments.created', Typecho_Db::SORT_DESC));
-                            $result[$i]['replys'][] = $comment;
+                            $result[$i]['replies'][] = $comment;
                         }
                     }
                 }
@@ -400,7 +400,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
         self::checkApisec($sec);
 
         $type = self::GET('type', 'mp');
-        if($type == 'mp') {
+        if ($type == 'mp') {
             $cid = self::GET('cid', -1);
             $author = self::GET('author', "None");
             $text = self::GET('text', "None");
@@ -421,7 +421,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
                 $this->db->query($this->db->update('table.unitypecho')->rows(array('formid' => $formid))->where('openid = ?', $openid));
             }
             $this->export($coid);
-        } else if($type == "app") {
+        } else if ($type == "app") {
             $cid = self::GET('cid', -1);
             $author = self::GET('name', "None");
             $parent = self::GET('parent', 0);
@@ -464,4 +464,5 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
     {
         $this->on($this->request);
     }
+
 }
