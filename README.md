@@ -17,17 +17,19 @@ UniTypecho 的安装非常简单，只需进行简单的插件与前端配置，
 
 ## 预览 Preview
 
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic1.png)
-
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic2.png)
-
 微信小程序 & QQ 小程序：
 
 ![](https://github.com/idealclover/UniTypecho/raw/master/assets/qrcode.png)
 
+字节跳动小程序：正在审核中
+
 Android 应用：[酷安](https://www.coolapk.com/apk/255491) 暂未上架
 
 H5：[链接](https://h5.idealclover.cn/) （请使用手机打开）
+
+截图：
+
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic1.png)
 
 ## 特性 Features
 
@@ -38,6 +40,7 @@ H5：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 * 解析 Markdown 文章
 * 登录，点赞，回复
 * 自定义关于页面
+* **微信订阅消息**
 * 输出热门文章
 * 域内链接跳转
 * 转发文章
