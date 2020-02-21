@@ -23,9 +23,11 @@ UniTypecho 的安装非常简单，只需进行简单的插件与前端配置，
 
 字节跳动小程序：正在审核中
 
-Android 应用：[酷安](https://www.coolapk.com/apk/255491) 暂未上架
+Android 应用：[蓝奏云](https://www.lanzous.com/i9k2usj)
 
-H5：[链接](https://h5.idealclover.cn/) （请使用手机打开）
+H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
+
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/qrcode2.png)
 
 截图：
 
@@ -33,16 +35,37 @@ H5：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
 ## 特性 Features
 
-一些亮眼的特性功能如下：
+### 微信订阅消息：
 
+当发送评论时，微信会询问是否发送订阅消息。若用户选择接收，则当其评论有新回复时会收到微信订阅消息通知，并可进入小程序查看。
+
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic2.png)
+
+### 内链打开：
+
+前提：开启伪静态并规定链接形式为 ```域名/archives/:cid```
+
+众所周知，小程序禁止外链链接。而在 UniTypecho 中。将会根据 URL 进行自动识别，并进行小程序内跳转。这样当自己的一篇文章引用另一篇文章时，便可让读者很方便地查看。
+
+而对于外链链接，UniTypecho 则会将链接地址复制到剪贴板。
+
+### 海报分享：
+
+在微信小程序中提供了海报分享方式，可以生成海报并保存，便于分享。
+
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic3.png)
+
+而 QQ 小程序由于自带可以分享到 QQ 空间，微信好友及朋友圈，故未加入海报分享功能。
+
+### 以及更多：
+
+* 一键更换主题色
 * 首页头图预览文章
 * 按分类输出文章列表
 * 解析 Markdown 文章
 * 登录，点赞，回复
 * 自定义关于页面
-* **微信订阅消息**
 * 输出热门文章
-* 域内链接跳转
 * 转发文章
 
 ## 如何使用 How to Use
@@ -85,12 +108,25 @@ H5：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 * QQ小程序：Color-UI 在 QQ 小程序编译后 CSS 无法解析图标
 * APP：使用 V3 编译器 uParse 模块会报错，故使用 V2 编译器
 
+## 赞助我 Donate Me
+
+欢迎您对我项目的支持！
+
+您可以点击 [这个链接](https://donate.idealclover.cn) 或扫描下方的二维码向我支持
+
+支持微信，支付宝，QQ等多种支付方式
+
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/donate.png)
+
+关于如何用一个链接做到如此，这是我的另一个开源项目 [Click-to-Donate](https://github.com/idealclover/click-to-donate) 。
+
 ## 开源许可 Open-source Licenses
 
 Based on:
 
 * [uni-app](https://github.com/dcloudio/uni-app)
 * [WeTypecho](https://github.com/MingliangLu/WeTypecho)
+* [uni-app-components](https://github.com/MyQuitter/uni-app-components)
 * [Color-UI](https://github.com/weilanwl/ColorUI)
 * [uParse](https://github.com/gaoyia/parse)
 
