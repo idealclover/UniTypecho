@@ -21,14 +21,19 @@
 				</view>
 			</view>
 		</view>
+		<footerinfo />
 	</view>
 </template>
 
 <script>
+	import footerinfo from '@/components/footerinfo.vue';
 	import cfg from "@/config.js";
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
 	export default {
+		components: {
+			footerinfo
+		},
 		data() {
 			return {
 				tabCur: 0,

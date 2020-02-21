@@ -8,6 +8,7 @@
 		<view class="margin-xl">
 			<articledetail :cid="cid" :isPage="true" :showTools="false" @getInfo="getInfo"/>
 			<commentdetail :cid="cid" :isPage="true" :refresh="refreshComments" v-if="showComments" />
+			<footerinfo />
 		</view>
 		<commentsender :cid="cid" :isPage="true" :title="title" :thumb="thumb" @onRefreshComments="onRefreshComments"  v-if="showComments" />
 	</view>
@@ -15,6 +16,7 @@
 
 <script>
 	import articledetail from '@/components/articledetail.vue'
+	import footerinfo from '@/components/footerinfo.vue';
 	import commentdetail from '@/components/commentdetail.vue'
 	// #ifdef MP-WEIXIN
 	import commentsender from '@/components/commentsender/wx.vue';
@@ -44,7 +46,8 @@
 		components: {
 			articledetail,
 			commentdetail,
-			commentsender
+			commentsender,
+			footerinfo
 		},
 		data() {
 			return {
