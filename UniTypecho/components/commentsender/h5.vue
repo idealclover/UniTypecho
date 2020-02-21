@@ -116,7 +116,6 @@
 							'website': data.websiteInput,
 						},
 						success: function() {
-							console.log(that.tempAction);
 							that.modalName = null;
 							if (that.tempAction == "like") that.sendLike();
 							else if (that.tempAction == "comment") that.sendComment();

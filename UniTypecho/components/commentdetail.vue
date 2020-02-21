@@ -128,7 +128,6 @@
 				// do something
 			},
 			navigate(href, e) {
-				// console.log(href);
 				let re = new RegExp("^https:\/\/" + cfg.getdomain + "\/archives\/([0-9]*)\/?");
 				let str = href.match(re);
 				if(!Util.isNull(str)) {
@@ -138,12 +137,10 @@
 					return;
 				}
 				// #ifdef H5
-				console.log(href);
 				window.open(href);
 				// #endif
 				// #ifdef APP-PLUS
 				plus.runtime.openURL(href, function(res) {
-					console.log(res);
 				});
 				// #endif
 				// #ifdef MP

@@ -60,9 +60,7 @@
 					var datas = res.data.data;
 					let showComments = datas['showComments'] == "1" ? true : false;
 					let showShare = datas['showShare'] == "1" ? true : false;
-					console.log(datas);
 					let templateIds = datas['templateIds'];
-					console.log(datas['templateIds']);
 					getApp().globalData.showComments = showComments;
 					getApp().globalData.showShare = showShare;
 					if(!Util.isNull(templateIds)) getApp().globalData.templateIds = templateIds;

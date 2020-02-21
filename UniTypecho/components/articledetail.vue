@@ -58,9 +58,7 @@
 					success: function(res) {
 						let datas = res.data.data;
 						if (datas.length !== 0) {
-							// console.log(item.thumb);
 							let item = API.parsePost(datas[0]);
-							console.log(item.thumb);
 							let text = item.text.replace(new RegExp('!!!', 'g'), '');
 							that.article = marked(text);
 							that.time = API.getCreatedTime(item.created);
@@ -84,7 +82,6 @@
 			},
 			navigate(href, e) {
 				// do something
-				// console.log(href);
 				let re = new RegExp("^https:\/\/" + cfg.getdomain + "\/archives\/([0-9]*)\/?");
 				let str = href.match(re);
 				if(!Util.isNull(str)) {
@@ -94,12 +91,10 @@
 					return;
 				}
 				// #ifdef H5
-				console.log(href);
 				window.open(href);
 				// #endif
 				// #ifdef APP-PLUS
 				plus.runtime.openURL(href, function(res) {
-					console.log(res);
 				});
 				// #endif
 				// #ifdef MP

@@ -15,13 +15,11 @@ function login(handler) {
 				return;
 			}
 			getApp().globalData.userInfo.code = res.code;
-			// console.log(getApp().globalData.userInfo);
 			Net.request({
 				url: API.login(getApp().globalData.userInfo),
 				success: function(res) {
 					var datas = res.data.data;
 					getApp().globalData.userInfo.openid = datas;
-					console.log(getApp().globalData.userInfo);
 					uni.hideLoading();
 					handler.success();
 				},
