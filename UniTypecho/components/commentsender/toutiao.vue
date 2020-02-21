@@ -85,9 +85,6 @@
 				this.tempMargin = "40"
 				this.inputBottom = 0
 			},
-			// userSubmit: function(e) {
-			// 	console.log(e.detail.formId);
-			// },
 			isLogin() {
 				return (
 					!Util.isNull(getApp().globalData.userInfo) &&
@@ -148,7 +145,6 @@
 						that.value,
 						0,
 						getApp().globalData.userInfo.avatarUrl,
-						// e.detail.formId
 					),
 					success: function(res) {
 						uni.showToast({

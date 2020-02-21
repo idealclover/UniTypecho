@@ -40,6 +40,7 @@
 			}
 		},
 		onLoad: function(option) {
+			let that = this;
 			// #ifdef MP
 			uni.getUserInfo({
 				provider: 'weixin',
@@ -47,13 +48,9 @@
 					getApp().globalData.userInfo = res.userInfo;
 					Login.login({
 						success: function() {
-							// if (options.item) {
-							// 	wx.navigateTo({
-							// 		url: "../detail/detail?item=" + options.item
-							// 	});
-							// }
 						}
 					});
+					
 				}
 			});
 			// #endif
@@ -63,18 +60,20 @@
 					var datas = res.data.data;
 					let showComments = datas['showComments'] == "1" ? true : false;
 					let showShare = datas['showShare'] == "1" ? true : false;
+					console.log(datas);
+					let templateIds = datas['templateIds'];
+					console.log(datas['templateIds']);
 					getApp().globalData.showComments = showComments;
 					getApp().globalData.showShare = showShare;
+					if(!Util.isNull(templateIds)) getApp().globalData.templateIds = templateIds;
+					if(!Util.isNull(option.cid)){
+						that.cid = option.cid;
+						uni.navigateTo({
+							url: '../post/post?cid=' + option.cid
+						})
+					}
 				}
 			});
-			this.cid = option.cid;
-		},
-		onReady: function() {
-			if(!Util.isNull(this.cid)){
-				uni.navigateTo({
-					url: '../post/post?cid=' + this.cid
-				})
-			}
 		},
 		// #ifdef MP-QQ
 		onShareAppMessage: function () {

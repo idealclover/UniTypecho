@@ -6,10 +6,10 @@
 			<image src="/static/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
 		</view>
 		<view class="margin-xl">
-			<articledetail :cid="cid" :isPage="true" :showTools="false" />
+			<articledetail :cid="cid" :isPage="true" :showTools="false" @getInfo="getInfo"/>
 			<commentdetail :cid="cid" :isPage="true" :refresh="refreshComments" v-if="showComments" />
 		</view>
-		<commentsender :cid="cid" :isPage="true" @onRefreshComments="onRefreshComments"  v-if="showComments" />
+		<commentsender :cid="cid" :isPage="true" :title="title" :thumb="thumb" @onRefreshComments="onRefreshComments"  v-if="showComments" />
 	</view>
 </template>
 
@@ -51,10 +51,17 @@
 				cid: null,
 				showComments: false,
 				refreshComments: false,
-				name: cfg.getname
+				name: cfg.getname,
+				title: null,
+				title: null,
+				thumb: null
 			}
 		},
 		methods: {
+			getInfo(e) {
+				this.title = e.title;
+				this.thumb = e.thumb;
+			},
 			getabout() {
 				let that = this;
 				let content = ``

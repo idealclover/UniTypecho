@@ -1,6 +1,8 @@
 <template name="articledetail">
 	<view>
+		<image class="self-center" v-if="thumb != null" :src="thumb" mode="aspectFit" style="width: 100%;"></image>
 		<view class="solid-bottom text-xxl padding-tb-sm">{{title}}</view>
+		<view  v-if="link != null"class="text-gray ">Link: {{link}}</view>
 		<view class="text-gray padding-tb-lg" v-if="showTools && views != null">
 			<text class="cuIcon-attentionfill padding-lr-xs"></text>{{views}}
 			<text class="cuIcon-likefill padding-lr-xs"></text> {{likes}}
@@ -41,7 +43,9 @@
 				views: null,
 				likes: null,
 				comments: null,
-				time: null
+				time: null,
+				thumb: null,
+				link: null
 			}
 		},
 		methods: {
@@ -54,7 +58,9 @@
 					success: function(res) {
 						let datas = res.data.data;
 						if (datas.length !== 0) {
+							// console.log(item.thumb);
 							let item = API.parsePost(datas[0]);
+							console.log(item.thumb);
 							let text = item.text.replace(new RegExp('!!!', 'g'), '');
 							that.article = marked(text);
 							that.time = API.getCreatedTime(item.created);
@@ -62,7 +68,12 @@
 							that.views = item.views;
 							that.likes = item.likes;
 							that.title = item.title;
-							that.$emit('getTitle', item.title);
+							that.thumb = item.thumb.type == 'self' ? item.thumb.url : null;
+							that.link = item.link;
+							that.$emit('getInfo', {
+								"title": item.title,
+								"thumb": item.thumb.url
+							});
 						}
 					},
 				});
@@ -89,6 +100,17 @@
 				// #ifdef APP-PLUS
 				plus.runtime.openURL(href, function(res) {
 					console.log(res);
+				});
+				// #endif
+				// #ifdef MP
+				uni.setClipboardData({
+					data: href,
+					success: function(){
+						uni.showToast({
+						    title: '链接已复制',
+						    duration: 2000
+						});
+					}
 				});
 				// #endif
 			}

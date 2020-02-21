@@ -1,10 +1,10 @@
 <template>
 	<view>
 		<view class="margin-xl">
-			<articledetail :cid="cid" :isPage="false" :showTools="true" @getTitle="getTitle" />
+			<articledetail :cid="cid" :isPage="false" :showTools="true" @getInfo="getInfo" />
 			<commentdetail :cid="cid" :isPage="false" :refresh="refreshComments" v-if="showComments" />
 		</view>
-		<commentsender :cid="cid" :isPage="false" @onRefreshComments="onRefreshComments" v-if="showComments" />
+		<commentsender :cid="cid" :isPage="false" :title="title" :thumb="thumb" @onRefreshComments="onRefreshComments" v-if="showComments" />
 	</view>
 </template>
 
@@ -32,7 +32,9 @@
 				showComments: false,
 				refreshComments: false,
 				cid: null,
-				title: null,
+				title: "",
+				thumb: null,
+				isShowThumb: false
 			}
 		},
 		components: {
@@ -43,13 +45,16 @@
 		onLoad: function(option) {
 			this.showComments = getApp().globalData.showComments;
 			this.cid = option.cid;
-			this.title = "";
 		},
 		methods: {
-			getTitle(e) {
-				uni.setNavigationBarTitle({
-					title: e
-				});
+			getInfo(e) {
+				this.title = e.title;
+				this.thumb = e.thumb;
+				if(!this.isPage) {
+					uni.setNavigationBarTitle({
+						title: e.title
+					});
+				}
 			},
 			onRefreshComments() {
 				this.refreshComments = !this.refreshComments;

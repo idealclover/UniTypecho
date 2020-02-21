@@ -97,12 +97,7 @@
 								}
 								let leftAvatars = that.likeNum - avatarList.length
 								for(let i = 0; i < leftAvatars; i++){
-									// #ifdef APP-PLUS
-									avatarList.push('static/images/default.jpg');
-									// #endif
-									// #ifndef APP-PLUS
-									avatarList.push('/static/images/default.jpg');
-									// #endif
+									avatarList.push("https://i.loli.net/2020/02/21/suCXpZ4rxQFeMDn.jpg");
 								};
 								avatarList.reverse();
 								that.avatarList = avatarList;
@@ -121,12 +116,7 @@
 								item.author = "游客";
 							}
 							if (Util.isNull(item.authorImg)) {
-								// #ifdef APP-PLUS
-								item.authorImg = "static/images/default.jpg";
-								// #endif
-								// #ifndef APP-PLUS
-								item.authorImg = "/static/images/default.jpg";
-								// #endif
+								item.authorImg = "https://i.loli.net/2020/02/21/suCXpZ4rxQFeMDn.jpg";
 							}
 							item.createdtime = API.getCreatedTime(item.created);
 							return item;
@@ -138,7 +128,35 @@
 				// do something
 			},
 			navigate(href, e) {
-				// do something
+				// console.log(href);
+				let re = new RegExp("^https:\/\/" + cfg.getdomain + "\/archives\/([0-9]*)\/?");
+				let str = href.match(re);
+				if(!Util.isNull(str)) {
+					uni.navigateTo({
+						url: '/pages/post/post?cid=' + str[1]
+					});
+					return;
+				}
+				// #ifdef H5
+				console.log(href);
+				window.open(href);
+				// #endif
+				// #ifdef APP-PLUS
+				plus.runtime.openURL(href, function(res) {
+					console.log(res);
+				});
+				// #endif
+				// #ifdef MP
+				uni.setClipboardData({
+					data: href,
+					success: function(){
+						uni.showToast({
+						    title: '链接已复制',
+						    duration: 2000
+						});
+					}
+				});
+				// #endif
 			}
 		}
 	}
@@ -150,4 +168,8 @@
 	.cu-avatar-group {
 		white-space: nowrap;
 	}
+	
+	.cu-list .cu-item .content {
+		word-break: break-all;
+	}	
 </style>

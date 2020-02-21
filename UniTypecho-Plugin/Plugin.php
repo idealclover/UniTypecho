@@ -103,6 +103,8 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
         $form->addInput($appSecret);
         $templateId = new Typecho_Widget_Helper_Form_Element_Text('templateId', NULL, 'xxx', _t('微信小程序订阅模板的 template ID'),  _t('小程序的 template ID'));
         $form->addInput($templateId);
+        $defaultURL = new Typecho_Widget_Helper_Form_Element_Text('defaultURL', NULL, 'https://api.isoyu.com/bing_images.php', _t('默认图片 URL'),  _t('微信分享时的默认图片 URL'));
+        $form->addInput($defaultURL);
         $qqAppId = new Typecho_Widget_Helper_Form_Element_Text('qqAppId', NULL, 'xxx', _t('QQ 小程序的APPID'),  _t('小程序的APP ID'));
         $form->addInput($qqAppId);
         $qqAppSecret = new Typecho_Widget_Helper_Form_Element_Text('qqAppSecret', NULL, 'xxx', _t('QQ 小程序的APP secret ID'),  _t('小程序的APP secret ID'));

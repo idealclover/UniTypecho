@@ -75,14 +75,10 @@
 						let swiperList = [];
 						datas.forEach(function(data) {
 							let result = {};
-							data["thumb"].forEach(function(thumb) {
-								result['cid'] = data['cid'];
-								result['title'] = data['title'];
-								result['ispost'] = data['type'] == 'post' ? true : false;
-								if (thumb.name === "thumb") {
-									result['src'] = thumb['str_value'];
-								}
-							});
+							result['cid'] = data['cid'];
+							result['title'] = data['title'];
+							result['ispost'] = data['type'] == 'post' ? true : false;
+							result['src'] = data['thumb']['url'];
 							swiperList.push(result);
 						});
 						that.swiperList = swiperList;
@@ -145,7 +141,7 @@
 			//进入文章
 			openArticle(cid, title) {
 				uni.navigateTo({
-					url: '../post/post?cid=' + cid + '&title=' + title
+					url: '../post/post?cid=' + cid
 				});
 			}
 		}

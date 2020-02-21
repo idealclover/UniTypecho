@@ -10,9 +10,9 @@
 			<button class="share" open-type="share">
 				<view class="action"><text class="shareText cuIcon-share text-grey"></text></view>
 			</button>
-			<!-- <button class="share">
+			<button class="share" @click="getPoster">
 				<view class="action"><text class="shareText cuIcon-forward text-grey"></text></view>
-			</button> -->
+			</button>
 		</view>
 		<view class="cu-modal" :class="modalName=='DialogModal1'?'show':''">
 			<view class="cu-dialog">
@@ -34,6 +34,23 @@
 				</view>
 			</view>
 		</view>
+		<view class="cu-modal" v-if="loadDialogModal2" :class="modalName=='DialogModal2'?'show':''">
+			<view class="cu-dialog">
+				<view class="cu-bar bg-white justify-end">
+					<view class="content">保存海报</view>
+					<view class="action" @tap="hidePoster">
+						<text class="cuIcon-close text-red"></text>
+					</view>
+				</view>
+				<wm-poster Width="680" :imgSrc="imgUrl" :QrSrc="qrUrl" :Title="title" :Referrer="referrer" @success="posterGetSuccess"></wm-poster>
+				<view class="cu-bar bg-white justify-end">
+					<view class="action">
+						<button class="cu-btn line-green text-green" @tap="hidePoster">取消</button>
+						<button class="cu-btn bg-green margin-left" @tap="savePoster">保存</button>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -43,9 +60,13 @@
 	import Net from '@/utils/net.js';
 	import Util from '@/utils/util.js';
 	import Login from '@/utils/login.js';
+	import wmPoster from "@/libs/wm-poster/wm-poster.vue";
 
 	export default {
-		props: ['cid', 'isPage'],
+		props: ['cid', 'isPage', 'title', 'thumb'],
+		components: {
+			wmPoster
+		},
 		data() {
 			return {
 				value: "",
@@ -54,7 +75,13 @@
 				modalName: null,
 				inputBottom: 0,
 				tempAction: "",
-				tempMargin: "40"
+				tempMargin: "40",
+				loadDialogModal2: false,
+				qrUrl: "",
+				posterURL: "",
+				referrer: "",
+				// TODO
+				imgUrl: ""
 			};
 		},
 		mounted() {
@@ -74,11 +101,46 @@
 				Login.login({
 					success: function() {
 						that.getLikeStatus();
-						console.log('success');
 						if (that.tempAction == "like") that.sendLike();
 						else if (that.tempAction == "comment") that.sendComment();
 					}
 				})
+			},
+			getPoster(){
+				uni.showLoading({
+				  title: "加载中",
+				  mask: false
+				});
+				if(!this.isPage) {
+					this.qrUrl = API.getPosterUrl('/page/index/index?cid=' + this.cid);
+				} else this.qrUrl = API.getPosterUrl('/pages/index/index');
+				this.imgUrl = Util.isNull(this.thumb) ? "https://api.isoyu.com/bing_images.php" : this.thumb;
+				this.referrer = this.isLogin() ? getApp().globalData.userInfo.nickName + '分享给你' : '分享给你';
+				this.loadDialogModal2 = true;
+			},
+			posterGetSuccess(res) {
+				uni.hideLoading();
+				this.modalName = "DialogModal2"
+				this.posterURL = res.tempFilePath;
+			},
+			savePoster(){
+				let that = this;
+				uni.authorize({
+				    scope: 'scope.writePhotosAlbum',
+				    success() {
+				        uni.saveImageToPhotosAlbum({
+				        	filePath: that.posterURL,
+				        	success: function () {
+				        		that.loadDialogModal2 = false;
+				        		that.modalName = "";
+				        	}
+				        });
+				    }
+				})
+			},
+			hidePoster() {
+				this.loadDialogModal2 = false;
+				this.modalName = "";
 			},
 			inputFocus(e) {
 				this.tempMargin = 0
@@ -88,9 +150,6 @@
 				this.tempMargin = "40"
 				this.inputBottom = 0
 			},
-			// userSubmit: function(e) {
-			// 	console.log(e.detail.formId);
-			// },
 			isLogin() {
 				return (
 					!Util.isNull(getApp().globalData.userInfo) &&
@@ -112,7 +171,7 @@
 			sendLike() {
 				if (!this.isLogin()) {
 					this.tempAction = "like";
-					this.showModal();
+					this.showModal1();
 					return;
 				}
 				let that = this;
@@ -151,7 +210,6 @@
 						that.value,
 						0,
 						getApp().globalData.userInfo.avatarUrl,
-						// e.detail.formId
 					),
 					success: function(res) {
 						uni.showToast({
@@ -161,8 +219,9 @@
 						console.log('success');
 						that.$emit('onRefreshComments');
 						that.value = ""
+						if(Util.isNull(getApp().globalData.templateIds)) return;
 						uni.requestSubscribeMessage({
-						  tmplIds: ['fqfmD0pRu33DydKLJQBySIa2YljtoJba-1khdh0XdMw'],
+						  tmplIds: getApp().globalData.templateIds,
 						  success (res) {
 							  uni.showToast({
 							  	title: "订阅成功",

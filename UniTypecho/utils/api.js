@@ -64,13 +64,11 @@ module.exports = {
 			text: ori_item.text,
 			commentsNum: ori_item.commentsNum,
 			link: ori_item.permalink,
-			thumb: ori_item.thumb[0].str_value,
+			thumb: ori_item.thumb,
 			views: ori_item.views[0].views,
 			likes: ori_item.likes[0].likes,
-			//category: ori_item.categories.length > 0 ? ori_item.categories[0].name : null,
 			category: ori_item.categories.map(function(item) {
 				item.length = item.name.length;
-				// item.background = that.randomHexColor();
 				return item;
 			}),
 			mid: ori_item.categories.length > 0 ? ori_item.categories[0].mid : null,
@@ -137,16 +135,21 @@ module.exports = {
 			API_URL + "getLikeStatus?cid=" + cid + "&openid=" + openid
 		);
 	},
+	getPosterUrl: function(path) {
+		return this.appendAPISEC(
+			API_URL + 'getPoster?path=' + path
+		);
+	},
 	postLike: function(cid, openid) {
 		return this.appendAPISEC(
 			API_URL + "postLike?cid=" + cid + "&openid=" + openid
 		);
 	},
 	//#ifdef MP 
-	postComment: function(cid, openid, author, text, parent, icon, formid) {
+	postComment: function(cid, openid, author, text, parent, icon) {
 		return this.appendAPISEC(
 			API_URL + "postcomment?cid=" + cid + "&openid=" + openid + "&author=" + author + "&text=" + text + "&parent=" +
-			parent + "&icon=" + icon + "&formid=" + formid
+			parent + "&icon=" + icon
 		);
 	},
 	//#endif
@@ -158,98 +161,4 @@ module.exports = {
 		);
 	}
 	//#endif
-	
-	//  GetPosts: function() {
-	//    return this.appendAPISEC(API_URL + "posts?&pageSize=10");
-	//  },
-
-	//  GetAccessCode: function(url) {
-	//    return this.appendAPISEC(API_URL + "getaccesscode?path=" + url);
-	//  },
-	//  GetPostsbyMIDLimit: function(mid, limit, except) {
-	//    return this.appendAPISEC(
-	//      API_URL +
-	//        "getpostbymid?mid=" +
-	//        mid +
-	//        "&pageSize=" +
-	//        limit +
-	//        "&except=" +
-	//        except
-	//    );
-	//  },
-
-	//  GetPostsReplybyCID: function(cid, parent) {
-	//    return this.appendAPISEC(
-	//      API_URL + "getcomment?cid=" + cid + "&parent=" + parent
-	//    );
-	//  },
-	//  Postcomment: function(cid, openid, author, text, parent, icon, formid) {
-	//    return this.appendAPISEC(
-	//      API_URL +
-	//        "addcomment?cid=" +
-	//        cid +
-	//        "&openid=" +
-	//        openid +
-	//        "&author=" +
-	//        author +
-	//        "&text=" +
-	//        text +
-	//        "&parent=" +
-	//        parent +
-	//        "&icon=" +
-	//        icon +
-	//        "&formid=" +
-	//        formid
-	//    );
-	//  },
-
-
-	//  Getuserlikedlist: function(cid) {
-	//    return this.appendAPISEC(API_URL + "getuserlikedlist?cid=" + cid);
-	//  },
-	//  GetServerStat: function() {
-	//    return this.appendAPISEC(API_URL + "get_stat?");
-	//  },
-	//  Search: function(key) {
-	//    return this.appendAPISEC(API_URL + "search?keyword=" + key);
-	//  },
-	//  loginsuccess: function(app) {
-	//    return (
-	//      app.Data.userInfo != null &&
-	//      typeof app.Data.userInfo.openid != "undefined" &&
-	//      app.Data.userInfo.openid != undefined &&
-	//      app.Data.userInfo.openid.length >= 28
-	//    );
-	//  },
-	//  IsNull(obj) {
-	//    return obj != null && obj != undefined;
-	//  },
-
-
-	//  randomHexColor() {
-	//    //随机生成十六进制颜色
-	//    var hex = Math.floor(Math.random() * 16777216).toString(16); //生成ffffff以内16进制数
-	//    while (hex.length < 6) {
-	//      //while循环判断hex位数，少于6位前面加0凑够6位
-	//      hex = "0" + hex;
-	//    }
-	//    return "#" + hex; //返回‘#'开头16进制颜色
-	//  },
-	//  ConfirmAuth: function() {
-	//    wx.getSetting({
-	//      success: function(res) {
-	//        if (res.authSetting["scope.userInfo"]) {
-	//          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-	//          wx.getUserInfo({
-	//            success: function(res) {}
-	//          });
-	//        } else {
-	//          wx.navigateTo({
-	//            url: "../../page/auth/auth" // 页面 A
-	//          });
-	//        }
-	//      }
-	//    });
-	//  },
-
 };
