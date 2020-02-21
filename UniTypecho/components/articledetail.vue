@@ -2,7 +2,7 @@
 	<view>
 		<image class="self-center" v-if="thumb != null" :src="thumb" mode="aspectFit" style="width: 100%;"></image>
 		<view class="solid-bottom text-xxl padding-tb-sm">{{title}}</view>
-		<view  v-if="link != null"class="text-gray ">Link: {{link}}</view>
+		<view class="text-gray" v-if="link != null" >Link: {{link}}</view>
 		<view class="text-gray padding-tb-lg" v-if="showTools && views != null">
 			<text class="cuIcon-attentionfill padding-lr-xs"></text>{{views}}
 			<text class="cuIcon-likefill padding-lr-xs"></text> {{likes}}
@@ -15,11 +15,11 @@
 </template>
 <script>
 	import uParse from '@/libs/uParse/parse.vue'
+	import marked from '@/libs/marked/marked.min.js'
 	import cfg from '@/config.js'
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
 	import Util from '@/utils/util.js'
-	import marked from 'marked'
 
 	export default {
 		components: {

@@ -57,12 +57,19 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
 而 QQ 小程序由于自带可以分享到 QQ 空间，微信好友及朋友圈，故未加入海报分享功能。
 
+### 分享跳转：
+
+当用户通过扫描二维码进入时，若直接进入文章页，则返回时会直接跳出小程序。而 UniTypecho 采取了先进入主页再跳转到文章页的做法，使得用户返回时会回到主页继续浏览。
+
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic4.png)
+
+
 ### 以及更多：
 
 * 一键更换主题色
 * 首页头图预览文章
 * 按分类输出文章列表
-* 解析 Markdown 文章
+* 解析 Markdown & HTML 文章
 * 登录，点赞，回复
 * 自定义关于页面
 * 输出热门文章
@@ -81,8 +88,7 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 	1. 下载 IDE [HBuilder X](https://www.dcloud.io/hbuilderx.html) 并安装，打开 ```UniTypecho``` 文件夹中的项目
 	2. 复制 ```config.js.example``` 为 ```config.js```，填写域名，密钥，主题配置信息（注：如 Typecho 未配置地址重写则需在域名后加入 /index.php）
 	3. 复制 ```manifest.json.example``` 为 ```manifest.json```，配置 DCloud APPID 信息等
-	4. 使用 npm/yarn，安装项目依赖
-	5. 针对不同平台，下载开发者平台工具进行调试
+	4. 针对不同平台，下载开发者平台工具进行调试
 
 > 注：百度小程序不允许个人申请；字节跳动小程序申请需审核；支付宝及钉钉小程序类目暂不包括内容类目
 

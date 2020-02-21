@@ -46,10 +46,10 @@
 </template>
 <script>
 	import uParse from '@/libs/uParse/parse.vue'
+	import marked from '@/libs/marked/marked.min.js'
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
 	import Util from '@/utils/util.js'
-	import marked from 'marked'
 
 	export default {
 		components: {
