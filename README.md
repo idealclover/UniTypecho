@@ -63,17 +63,21 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
 ![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic4.png)
 
+### 黑白名单
+
+设置评论默认归类为通过/待审核，重重把关避免垃圾评论骚扰
+
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic5.png)
 
 ### 以及更多：
 
 * 一键更换主题色
-* 首页头图预览文章
-* 按分类输出文章列表
+* 通过微信赞赏码捐赠
+* 首页头图预览文章，自定义分享文案
+* 使用微信/QQ/邮箱登录，点赞，回复
+* 按分类输出文章列表，按点赞/评论/浏览输出热门文章
 * 解析 Markdown & HTML 文章
-* 登录，点赞，回复
 * 自定义关于页面
-* 输出热门文章
-* 转发文章
 
 ## 如何使用 How to Use
 
@@ -89,6 +93,10 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 	2. 复制 ```config.js.example``` 为 ```config.js```，填写域名，密钥，主题配置信息（注：如 Typecho 未配置地址重写则需在域名后加入 /index.php）
 	3. 复制 ```manifest.json.example``` 为 ```manifest.json```，配置 DCloud APPID 信息等
 	4. 针对不同平台，下载开发者平台工具进行调试
+3. **如果你只需要微信小程序/QQ小程序**
+   1. 在 [release](https://github.com/idealclover/UniTypecho/releases) 中下载最新版的 ```mp-weixin.zip / mp-qq.zip``` 并解压
+   2. 修改 ```project.config.json``` 与 ```static/config.js```
+   3. 在小程序开发者平台平台工具中打开，调试 
 
 > 注：百度小程序不允许个人申请；字节跳动小程序申请需审核；支付宝及钉钉小程序类目暂不包括内容类目
 
@@ -100,6 +108,8 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 * Telegram: [@idealclover](https://t.me/idealclover)
 * 发邮件给项目维护者傻翠 [idealclover@live.com](mailto://idealclover@live.com)
 * 加入 ~~暂时只有我一个人的~~ ~~粉丝群（划去）~~ UniTypecho 用户交流群 [1059333269](https://jq.qq.com/?_wv=1027&k=57glqp9)
+
+![](https://github.com/idealclover/UniTypecho/raw/master/assets/qqgroup.png)
 
 ## 开发计划 Next TODOs
 
