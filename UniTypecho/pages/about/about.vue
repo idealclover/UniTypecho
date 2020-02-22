@@ -6,11 +6,11 @@
 			<image src="/static/images/wave.gif" mode="scaleToFill" class="gif-wave"></image>
 		</view>
 		<view class="margin-xl">
-			<articledetail :cid="cid" :isPage="true" :showTools="false" @getInfo="getInfo"/>
+			<articledetail :cid="cid" :isPage="true" :showTools="false" @getInfo="getInfo" />
 			<commentdetail :cid="cid" :isPage="true" :refresh="refreshComments" v-if="showComments" />
 			<footerinfo />
 		</view>
-		<commentsender :cid="cid" :isPage="true" :title="title" :thumb="thumb" @onRefreshComments="onRefreshComments"  v-if="showComments" />
+		<commentsender :cid="cid" :isPage="true" :title="title" :thumb="thumb" @onRefreshComments="onRefreshComments" v-if="showComments" />
 	</view>
 </template>
 

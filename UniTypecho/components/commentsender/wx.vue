@@ -106,12 +106,12 @@
 					}
 				})
 			},
-			getPoster(){
+			getPoster() {
 				uni.showLoading({
-				  title: "加载中",
-				  mask: false
+					title: "加载中",
+					mask: false
 				});
-				if(!this.isPage) {
+				if (!this.isPage) {
 					this.qrUrl = API.getPosterUrl('/page/index/index?cid=' + this.cid);
 				} else this.qrUrl = API.getPosterUrl('/pages/index/index');
 				this.imgUrl = Util.isNull(this.thumb) ? "https://api.isoyu.com/bing_images.php" : this.thumb;
@@ -123,19 +123,19 @@
 				this.modalName = "DialogModal2"
 				this.posterURL = res.tempFilePath;
 			},
-			savePoster(){
+			savePoster() {
 				let that = this;
 				uni.authorize({
-				    scope: 'scope.writePhotosAlbum',
-				    success() {
-				        uni.saveImageToPhotosAlbum({
-				        	filePath: that.posterURL,
-				        	success: function () {
-				        		that.loadDialogModal2 = false;
-				        		that.modalName = "";
-				        	}
-				        });
-				    }
+					scope: 'scope.writePhotosAlbum',
+					success() {
+						uni.saveImageToPhotosAlbum({
+							filePath: that.posterURL,
+							success: function() {
+								that.loadDialogModal2 = false;
+								that.modalName = "";
+							}
+						});
+					}
 				})
 			},
 			hidePoster() {
@@ -212,12 +212,12 @@
 						getApp().globalData.userInfo.avatarUrl,
 					),
 					success: function(res) {
-						if(res.data.data.status == "waiting"){
+						if (res.data.data.status == "waiting") {
 							uni.showToast({
 								title: "请等待审核",
 								duration: 2000
 							});
-						}else if(res.data.data.status == "approved"){
+						} else if (res.data.data.status == "approved") {
 							uni.showToast({
 								title: "评论成功",
 								duration: 2000
@@ -226,24 +226,24 @@
 						console.log('success');
 						that.$emit('onRefreshComments');
 						that.value = ""
-						if(Util.isNull(getApp().globalData.templateIds)) return;
+						if (Util.isNull(getApp().globalData.templateIds)) return;
 						uni.requestSubscribeMessage({
-						  tmplIds: getApp().globalData.templateIds,
-						  success (res) {
-							  console.log(res);
-							  Net.request({
-								  showLoading: false,
-								  url: API.subscribe(getApp().globalData.userInfo.openid),
-								  success: function(res) {}
-							  });
-							  uni.showToast({
-							  	title: "订阅成功",
-							  	duration: 2000
-							  });
-						  },
-						  fail (e) {
-							  console.log(e);
-						  }
+							tmplIds: getApp().globalData.templateIds,
+							success(res) {
+								console.log(res);
+								Net.request({
+									showLoading: false,
+									url: API.subscribe(getApp().globalData.userInfo.openid),
+									success: function(res) {}
+								});
+								uni.showToast({
+									title: "订阅成功",
+									duration: 2000
+								});
+							},
+							fail(e) {
+								console.log(e);
+							}
 						})
 					}
 				});

@@ -4,13 +4,13 @@ import Util from './util.js';
 
 function login(handler) {
 	uni.showLoading({
-	  title: "加载中",
-	  mask: false
+		title: "加载中",
+		mask: false
 	});
 	uni.login({
 		provider: 'weixin',
 		success: function(res) {
-			if(Util.isNull(getApp().globalData.userInfo)) {
+			if (Util.isNull(getApp().globalData.userInfo)) {
 				uni.hideLoading();
 				return;
 			}

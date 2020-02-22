@@ -199,12 +199,12 @@
 								0,
 							),
 							success: function(res) {
-								if(res.data.data.status == "waiting"){
+								if (res.data.data.status == "waiting") {
 									uni.showToast({
 										title: "请等待审核",
 										duration: 2000
 									});
-								}else if(res.data.data.status == "approved"){
+								} else if (res.data.data.status == "approved") {
 									uni.showToast({
 										title: "评论成功",
 										duration: 2000

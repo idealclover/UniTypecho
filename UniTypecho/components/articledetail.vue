@@ -81,9 +81,7 @@
 							that.title = item.title;
 							that.thumb = item.thumb.type == 'self' ? item.thumb.url : null;
 							that.link = item.link;
-							console.log(that.donateQrURL)
-							console.log(that.showDonate)
-							if (!Util.isNull(that.donateQrURL) && that.showDonate  == true)
+							if (!Util.isNull(that.donateQrURL) && that.showDonate == true)
 								that.isShowDonate = true;
 							that.$emit('getInfo', {
 								"title": item.title,

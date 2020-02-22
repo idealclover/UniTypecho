@@ -64,7 +64,7 @@
 		},
 		watch: {
 			cid: function(cid) {
-				if(this.isPage) this.getdetails(cid);
+				if (this.isPage) this.getdetails(cid);
 			},
 			refresh: function() {
 				this.getdetails(this.cid);
@@ -81,7 +81,7 @@
 		},
 		methods: {
 			getdetails(cid) {
-				if(Util.isNull(cid)) return;
+				if (Util.isNull(cid)) return;
 				let that = this;
 				Net.request({
 					url: API.getLikedNum(cid),
@@ -93,12 +93,12 @@
 							success: function(res) {
 								let datas = res.data.data;
 								let avatarList = [];
-								for(let i in datas){
+								for (let i in datas) {
 									let avatarUrl = datas[i]['avatarUrl'];
 									avatarList.push(avatarUrl);
 								}
 								let leftAvatars = that.likeNum - avatarList.length
-								for(let i = 0; i < leftAvatars; i++){
+								for (let i = 0; i < leftAvatars; i++) {
 									avatarList.push("https://i.loli.net/2020/02/21/suCXpZ4rxQFeMDn.jpg");
 								};
 								avatarList.reverse();
@@ -132,7 +132,7 @@
 			navigate(href, e) {
 				let re = new RegExp("^https:\/\/" + cfg.getdomain + "\/archives\/([0-9]*)\/?");
 				let str = href.match(re);
-				if(!Util.isNull(str)) {
+				if (!Util.isNull(str)) {
 					uni.navigateTo({
 						url: '/pages/post/post?cid=' + str[1]
 					});
@@ -142,16 +142,15 @@
 				window.open(href);
 				// #endif
 				// #ifdef APP-PLUS
-				plus.runtime.openURL(href, function(res) {
-				});
+				plus.runtime.openURL(href, function(res) {});
 				// #endif
 				// #ifdef MP
 				uni.setClipboardData({
 					data: href,
-					success: function(){
+					success: function() {
 						uni.showToast({
-						    title: '链接已复制',
-						    duration: 2000
+							title: '链接已复制',
+							duration: 2000
 						});
 					}
 				});
@@ -164,11 +163,12 @@
 	.cu-bar .action:first-child {
 		margin-left: 0;
 	}
+
 	.cu-avatar-group {
 		white-space: nowrap;
 	}
-	
+
 	.cu-list .cu-item .content {
 		word-break: break-all;
-	}	
+	}
 </style>

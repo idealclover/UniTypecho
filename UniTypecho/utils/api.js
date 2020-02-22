@@ -154,7 +154,7 @@ module.exports = {
 	},
 	//#endif
 	//#ifndef MP
-	postComment: function(cid, name, mail, website, text, parent){
+	postComment: function(cid, name, mail, website, text, parent) {
 		return this.appendAPISEC(
 			API_URL + "postcomment?cid=" + cid + "&name=" + name + "&mail=" + mail + "&text=" + text + "&parent=" +
 			parent + "&website=" + website + "&type=app"
@@ -162,7 +162,7 @@ module.exports = {
 	}
 	//#endif
 	// #ifdef MP-WEIXIN
-	subscribe: function(openid){
+	subscribe: function(openid) {
 		return this.appendAPISEC(
 			API_URL + "subscribe?openid=" + openid
 		);

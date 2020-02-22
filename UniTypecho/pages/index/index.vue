@@ -47,10 +47,9 @@
 				success: function(res) {
 					getApp().globalData.userInfo = res.userInfo;
 					Login.login({
-						success: function() {
-						}
+						success: function() {}
 					});
-					
+
 				}
 			});
 			// #endif
@@ -65,8 +64,8 @@
 					getApp().globalData.showComments = showComments;
 					getApp().globalData.showShare = showShare;
 					getApp().globalData.showDonate = showDonate;
-					if(!Util.isNull(templateIds)) getApp().globalData.templateIds = templateIds;
-					if(!Util.isNull(option.cid)){
+					if (!Util.isNull(templateIds)) getApp().globalData.templateIds = templateIds;
+					if (!Util.isNull(option.cid)) {
 						that.cid = option.cid;
 						uni.navigateTo({
 							url: '../post/post?cid=' + option.cid
@@ -75,13 +74,17 @@
 				}
 			});
 		},
-		// #ifdef MP-QQ
-		onShareAppMessage: function () {
-		    qq.showShareMenu({
+		onShareAppMessage: function() {
+			// #ifdef MP-QQ
+			qq.showShareMenu({
 				showShareItems: ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
-		    })
+			});
+			// #endif
+			return {
+				title: '来看看这个博客小程序！',
+				path: '/pages/index/index?'
+			}
 		}
-		// #endif
 	}
 </script>
 

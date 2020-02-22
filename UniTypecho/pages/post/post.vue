@@ -53,7 +53,7 @@
 			getInfo(e) {
 				this.title = e.title;
 				this.thumb = e.thumb;
-				if(!this.isPage) {
+				if (!this.isPage) {
 					uni.setNavigationBarTitle({
 						title: e.title
 					});
@@ -63,10 +63,17 @@
 				this.refreshComments = !this.refreshComments;
 			}
 		},
-		onShareAppMessage: function () {
-		    qq.showShareMenu({
+		onShareAppMessage: function() {
+			// #ifdef MP-QQ
+			qq.showShareMenu({
 				showShareItems: ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
-		    })
+			});
+			// #endif
+			return {
+				title: this.title,
+				path: '/pages/index/index?cid=' + this.cid,
+				imageUrl: this.thumb
+			}
 		}
 	}
 </script>
