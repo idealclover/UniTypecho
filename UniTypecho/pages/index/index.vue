@@ -60,9 +60,11 @@
 					var datas = res.data.data;
 					let showComments = datas['showComments'] == "1" ? true : false;
 					let showShare = datas['showShare'] == "1" ? true : false;
+					let showDonate = datas['showDonate'] == "1" ? true : false;
 					let templateIds = datas['templateIds'];
 					getApp().globalData.showComments = showComments;
 					getApp().globalData.showShare = showShare;
+					getApp().globalData.showDonate = showDonate;
 					if(!Util.isNull(templateIds)) getApp().globalData.templateIds = templateIds;
 					if(!Util.isNull(option.cid)){
 						that.cid = option.cid;

@@ -161,4 +161,11 @@ module.exports = {
 		);
 	}
 	//#endif
+	// #ifdef MP-WEIXIN
+	subscribe: function(openid){
+		return this.appendAPISEC(
+			API_URL + "subscribe?openid=" + openid
+		);
+	}
+	// #endif
 };

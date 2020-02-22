@@ -39,10 +39,12 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
         $result = array();
         $showComments = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->showComments;
         $showShare = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->showShare;
+        $showDonate = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->showDonate;
         $templateId = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->templateId;
         if($templateId != 'xxx' && $templateId != null) $result['templateIds'] = array($templateId);
         $result['showComments'] = $showComments;
         $result['showShare'] = $showShare;
+        $result['showDonate'] = $showDonate;
         $this->export($result);
     }
 
@@ -454,21 +456,39 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
             $text = self::GET('text', "None");
             $parent = self::GET('parent', 0);
             $headicon = self::GET('icon', "NULL");
-            $formid = self::GET('formid', "NULL");
             $openid = self::GET('openid', "NULL");
+            // status: 0 通过 1 待审核
+            $status = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->defaultStatus;
+            if($status == 0){
+                $blackList = explode("\n", Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->blackList);
+                foreach($blackList as $item){
+                    if($item != '' && $openid == $item) $status = 1;
+                }
+            }else if($status == 1){
+                $whiteList = explode("\n", Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->whiteList);
+                foreach($whiteList as $item){
+                    if($item != '' && $openid == $item) $status = 0;
+                }
+            }
+
+            if($status == 0) $status = 'approved';
+            elseif($status == 1) $status = 'waiting';
 
             $coid = $this->db->query($this->db->insert('table.comments')->rows(array(
                 'cid' => $cid, 'created' => time(), 'author' => $author, 'authorId' => '0',
                 'ownerId' => '1', 'mail' => $openid . '@wx.com', 'ip' => '8.8.8.8', 'agent' => 'wx-miniprogram', 'text' => $text, 'type' => 'comment',
-                'status' => 'approved', 'parent' => $parent,
+                'status' => $status, 'parent' => $parent,
                 'authorImg' => $headicon
             )));
             if ($coid > 0) {
                 $row = $this->db->fetchRow($this->db->select('commentsNum')->from('table.contents')->where('cid = ?', $cid));
                 $this->db->query($this->db->update('table.contents')->rows(array('commentsNum' => (int) $row['commentsNum'] + 1))->where('cid = ?', $cid));
-                $this->db->query($this->db->update('table.unitypecho')->rows(array('formid' => $formid))->where('openid = ?', $openid));
+                $this->db->query($this->db->update('table.unitypecho')->rows(array('formid' => '0'))->where('openid = ?', $openid));
             }
-            $this->export($coid);
+            $this->export(array(
+                'coid' => $coid,
+                'status' => $status
+            ));
         } else if ($type == "app") {
             $cid = self::GET('cid', -1);
             $author = self::GET('name', "None");
@@ -476,20 +496,52 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
             $mail = self::GET('mail', "None");
             $url = self::GET('website', NULL);
             $text = self::GET('text', "None");
+            // status: 0 通过 1 待审核
+            $status = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->defaultStatus;
+            if($status == 0){
+                $blackList = explode("\n", Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->blackList);
+                foreach($blackList as $item){
+                    if($item != '' && $mail == $item) $status = 1;
+                }
+            }else if($status == 1){
+                $whiteList = explode("\n", Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->whiteList);
+                foreach($whiteList as $item){
+                    if($item != '' && $mail == $item) $status = 0;
+                }
+            }
+
+            if($status == 0) $status = 'approved';
+            elseif($status == 1) $status = 'waiting';
+
             $coid = $this->db->query($this->db->insert('table.comments')->rows(array(
                 'cid' => $cid, 'created' => time(), 'author' => $author, 'authorId' => '0',
                 'ownerId' => '1', 'mail' => $mail, 'ip' => '8.8.8.8', 'agent' => 'app', 'text' => $text, 'type' => 'comment',
-                'status' => 'approved', 'parent' => $parent
+                'status' => $status, 'parent' => $parent
             )));
             if ($coid > 0) {
                 $row = $this->db->fetchRow($this->db->select('commentsNum')->from('table.contents')->where('cid = ?', $cid));
                 $this->db->query($this->db->update('table.contents')->rows(array('commentsNum' => (int) $row['commentsNum'] + 1))->where('cid = ?', $cid));
             }
-            $this->export($coid);
+            $this->export(array(
+                'coid' => $coid,
+                'status' => $status
+            ));
         }
     }
 
-    private function defaults()
+    private function subscribe()
+    {
+        $sec = self::GET('apisec', 'null');
+        self::checkApisec($sec);
+
+        $openid = self::GET('openid', "NULL");
+        $row = $this->db->fetchRow($this->db->select('formid')->from('table.unitypecho')->where('openid = ?', $openid));
+        $this->db->query($this->db->update('table.unitypecho')->rows(array('formid' => (int) $row['formid'] + 1))->where('openid = ?', $openid));
+
+        $this->export('success');
+    }
+
+        private function defaults()
     {
         $this->export('Method not found.');
     }

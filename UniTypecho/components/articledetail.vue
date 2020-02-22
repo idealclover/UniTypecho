@@ -12,8 +12,8 @@
 		<hr v-if="showTools" />
 		<uParse :content="article" @preview="preview" @navigate="navigate" />
 		<!-- #ifdef MP-WEIXIN -->
-		<view class="like-area flex-sub text-center" v-if="isShowDonate">
-			<view class="cu-avatar xl round margin-left" :class="'bg-'+color" @click="openDonate()">
+		<view class="like-area flex-sub text-center padding" v-if="isShowDonate">
+			<view class="cu-avatar xl round" :class="'bg-'+color" @click="openDonate()">
 				赏
 			</view>
 			<view class="padding">您的支持是对我最大的鼓励</view>
@@ -38,6 +38,8 @@
 			if (!Util.isNull(this.cid)) {
 				this.getdetails(this.cid);
 			}
+			this.showDonate = getApp().globalData.showDonate;
+			console.log(this.showDonate);
 		},
 		watch: {
 			cid: function(cid) {
@@ -80,7 +82,8 @@
 							that.thumb = item.thumb.type == 'self' ? item.thumb.url : null;
 							that.link = item.link;
 							console.log(that.donateQrURL)
-							if (!Util.isNull(that.donateQrURL))
+							console.log(that.showDonate)
+							if (!Util.isNull(that.donateQrURL) && that.showDonate  == true)
 								that.isShowDonate = true;
 							that.$emit('getInfo', {
 								"title": item.title,
@@ -136,13 +139,4 @@
 	}
 </script>
 <style>
-	.like-area {
-		height: 300upx;
-	}
-
-	.like-btn {
-		height: 130upx;
-		width: 130upx;
-		border-radius: 50%;
-	}
 </style>

@@ -117,6 +117,14 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
         $form->addInput($showComments);
         $showShare = new Typecho_Widget_Helper_Form_Element_Radio('showShare', array('0' => '禁用', '1' => '启用'), '1', _t('是否开启小程序端分享，转发功能，1为开启，0为关闭。可在过审核后打开该功能'),  _t('审核时建议关闭，防止微信判定小程序有诱导用户分享的嫌疑，审核通过后再开启。'));
         $form->addInput($showShare);
+        $showDonate = new Typecho_Widget_Helper_Form_Element_Radio('showDonate', array('0' => '禁用', '1' => '启用'), '1', _t('是否开启小程序赞赏'),  _t('审核时建议关闭'));
+        $form->addInput($showDonate);
+        $defaultStatus = new Typecho_Widget_Helper_Form_Element_Radio('defaultStatus', array('0' => '通过', '1' => '待审核'), '1', _t('评论默认状态'),  _t('评论默认为通过/待审核'));
+        $form->addInput($defaultStatus);
+        $blackList = new Typecho_Widget_Helper_Form_Element_Textarea('blackList', NULL, NULL, _t('黑名单'), _t('默认为通过时启用，评论需要审核的 openid'));
+        $form->addInput($blackList);
+        $whiteList = new Typecho_Widget_Helper_Form_Element_Textarea('whiteList', NULL, NULL, _t('白名单'), _t('默认为待审核时启用，评论直接通过的 openid'));
+        $form->addInput($whiteList);
     }
 
     public static function personalConfig(Typecho_Widget_Helper_Form $form)
@@ -146,6 +154,7 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
          if($templateId == null || $templateId == "") return;
 
          $db  = Typecho_Db::get();
+
          $original = $db->fetchRow($db->select('author', 'mail', 'text')->from('table.comments')->where('coid = ?', $comment->parent));
          if (preg_match( '/(.*)@wx\.com/', $original['mail'], $matches)){
              // print('qwq');
@@ -164,6 +173,7 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
              $data = array(
                  'touser' => $openid,
                  "template_id" => $templateId,
+                 "page" => "pages/index/index?cid=" . $cfg.cid,
                  'data' => array(
                      "thing4" => array(
                          "value" => $cfg["title"]
@@ -190,6 +200,8 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
              curl_setopt($ch, CURLOPT_POSTFIELDS, $result);
              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
              $info = curl_exec($ch);
+             $row = $db->fetchRow($db->select('formid')->from('table.unitypecho')->where('openid = ?', $openid));
+             $db->query($db->update('table.unitypecho')->rows(array('formid' => (int) $row['formid'] - 1))->where('openid = ?', $openid));    
              return $info;
          }
     }
