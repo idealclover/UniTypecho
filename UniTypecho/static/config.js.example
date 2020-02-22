@@ -1,0 +1,16 @@
+var domain = ""
+var name = ""
+var API_SECRET = ""
+
+var color = "green"
+var donateqrurl = "https://image.idealclover.cn/blog/assets/donateqrwechat.jpg"
+
+export default {
+    getdomain: domain,
+    getname: name,
+    getapisecret: API_SECRET,
+
+	getname: name,
+	getcolor: color,
+	getdonateqrurl: donateqrurl
+}

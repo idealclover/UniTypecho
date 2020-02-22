@@ -2,8 +2,8 @@
 	<view>
 		<image class="self-center" v-if="thumb != null" :src="thumb" mode="aspectFit" style="width: 100%;"></image>
 		<view class="solid-bottom text-xxl padding-tb-sm">{{title}}</view>
-		<view class="text-gray" v-if="link != null" >Link: {{link}}</view>
-		<view class="text-gray padding-tb-lg" v-if="showTools && views != null">
+		<view class="text-gray action" v-if="link != null" @click="copy(link)">Link: {{link}}</view>
+		<view class="text-gray padding-tb-sm" v-if="showTools && views != null">
 			<text class="cuIcon-attentionfill padding-lr-xs"></text>{{views}}
 			<text class="cuIcon-likefill padding-lr-xs"></text> {{likes}}
 			<text class="cuIcon-communityfill padding-lr-xs"></text> {{comments}}
@@ -11,12 +11,20 @@
 		</view>
 		<hr v-if="showTools" />
 		<uParse :content="article" @preview="preview" @navigate="navigate" />
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="like-area flex-sub text-center" v-if="isShowDonate">
+			<view class="cu-avatar xl round margin-left" :class="'bg-'+color" @click="openDonate()">
+				赏
+			</view>
+			<view class="padding">您的支持是对我最大的鼓励</view>
+		</view>
+		<!-- #endif -->
 	</view>
 </template>
 <script>
 	import uParse from '@/libs/uParse/parse.vue'
 	import marked from '@/libs/marked/marked.min.js'
-	import cfg from '@/config.js'
+	import cfg from '@/static/config.js'
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
 	import Util from '@/utils/util.js'
@@ -39,13 +47,16 @@
 		data() {
 			return {
 				article: '加载中',
+				color: cfg.getcolor,
 				title: '',
 				views: null,
 				likes: null,
 				comments: null,
 				time: null,
 				thumb: null,
-				link: null
+				link: null,
+				isShowDonate: false,
+				donateQrURL: cfg.getdonateqrurl
 			}
 		},
 		methods: {
@@ -68,6 +79,9 @@
 							that.title = item.title;
 							that.thumb = item.thumb.type == 'self' ? item.thumb.url : null;
 							that.link = item.link;
+							console.log(that.donateQrURL)
+							if (!Util.isNull(that.donateQrURL))
+								that.isShowDonate = true;
 							that.$emit('getInfo', {
 								"title": item.title,
 								"thumb": item.thumb.url
@@ -84,28 +98,37 @@
 				// do something
 				let re = new RegExp("^https:\/\/" + cfg.getdomain + "\/archives\/([0-9]*)\/?");
 				let str = href.match(re);
-				if(!Util.isNull(str)) {
+				if (!Util.isNull(str)) {
 					uni.navigateTo({
 						url: '/pages/post/post?cid=' + str[1]
 					});
 					return;
 				}
+				this.copy(href);
+			},
+			copy(href) {
 				// #ifdef H5
 				window.open(href);
 				// #endif
 				// #ifdef APP-PLUS
-				plus.runtime.openURL(href, function(res) {
-				});
+				plus.runtime.openURL(href, function(res) {});
 				// #endif
 				// #ifdef MP
 				uni.setClipboardData({
 					data: href,
-					success: function(){
+					success: function() {
 						uni.showToast({
-						    title: '链接已复制',
-						    duration: 2000
+							title: '链接已复制',
+							duration: 2000
 						});
 					}
+				});
+				// #endif
+			},
+			openDonate() {
+				// #ifdef MP-WEIXIN
+				uni.previewImage({
+					urls: [this.donateQrURL],
 				});
 				// #endif
 			}
@@ -113,4 +136,13 @@
 	}
 </script>
 <style>
+	.like-area {
+		height: 300upx;
+	}
+
+	.like-btn {
+		height: 130upx;
+		width: 130upx;
+		border-radius: 50%;
+	}
 </style>

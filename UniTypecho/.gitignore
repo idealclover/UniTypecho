@@ -4,5 +4,5 @@
 .project
 node_modules/
 unpackage/
-config.js
+static/config.js
 manifest.json

@@ -1,4 +1,4 @@
-import cfg from "../config.js";
+import cfg from "@/static/config.js";
 
 var domain = cfg.getdomain;
 var apisec = cfg.getapisecret;

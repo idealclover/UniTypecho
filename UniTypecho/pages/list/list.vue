@@ -37,7 +37,7 @@
 
 <script>
 	import footerinfo from '@/components/footerinfo.vue';
-	import cfg from "@/config.js";;
+	import cfg from "@/static/config.js";;
 	import API from '@/utils/api.js';
 	import Net from '@/utils/net.js';
 	export default {

@@ -1,6 +1,6 @@
-var domain = ""
-var name = ""
-var API_SECRET = ""
+var domain = "idealclover.cn"
+var name = "idealclover"
+var API_SECRET = "idealclover"
 
 var color = "green"
 

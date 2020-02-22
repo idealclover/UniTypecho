@@ -3,7 +3,7 @@
 		<view class="cu-bar">
 			<view class="action sub-title">
 				<text class="text-xl text-bold text-green">{{likeNum}}人赞</text>
-				<text class="bg-green" style="width:2rem"></text>
+				<text :class="'bg-'+color" style="width:2rem"></text>
 			</view>
 		</view>
 		<scroll-view scroll-x="true" scroll-with-animation>
@@ -47,6 +47,7 @@
 <script>
 	import uParse from '@/libs/uParse/parse.vue'
 	import marked from '@/libs/marked/marked.min.js'
+	import cfg from '@/static/config.js'
 	import API from '@/utils/api.js'
 	import Net from '@/utils/net.js'
 	import Util from '@/utils/util.js'
@@ -74,7 +75,8 @@
 				avatarList: [],
 				commentList: [],
 				likeNum: "",
-				likeList: []
+				likeList: [],
+				color: cfg.getcolor
 			}
 		},
 		methods: {
