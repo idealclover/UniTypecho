@@ -31,7 +31,7 @@
 	import commentsender from '@/components/commentsender/h5.vue';
 	// #endif
 	// #ifdef MP-TOUTIAO
-	import commentsender from '@/components/commentsender/toutiao.vue';
+	import commentsender from '@/components/commentsender/tt.vue';
 	// #endif
 	import cfg from "@/static/config.js";
 	import API from '@/utils/api.js'
