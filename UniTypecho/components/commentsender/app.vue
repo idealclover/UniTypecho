@@ -207,11 +207,13 @@
 								} else if (res.data.data.status == "approved") {
 									uni.showToast({
 										title: "评论成功",
-										duration: 2000
+										duration: 2000,
+										success: function() {
+											console.log('success');
+											that.$emit('onRefreshComments');
+										}
 									});
 								}
-								console.log('success');
-								that.$emit('onRefreshComments');
 								that.value = ""
 							}
 						});

@@ -308,7 +308,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
                     $this->db->query($this->db->insert('table.unitypecho')->rows(array(
                         'openid' => $openid, 'createtime' => time(), 'lastlogin' => time(),
                         'nickname' => $nickname, 'avatarUrl' => $avatarUrl, 'city' => $city, 'country' => $country,
-                        'gender' => $gender, 'province' => $province, 'mp' => $mp
+                        'gender' => $gender, 'province' => $province, 'mp' => $mp, 'formid' => '0'
                     )));
                     $this->export($openid);
                 }
@@ -483,7 +483,6 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
             if ($coid > 0) {
                 $row = $this->db->fetchRow($this->db->select('commentsNum')->from('table.contents')->where('cid = ?', $cid));
                 $this->db->query($this->db->update('table.contents')->rows(array('commentsNum' => (int) $row['commentsNum'] + 1))->where('cid = ?', $cid));
-                $this->db->query($this->db->update('table.unitypecho')->rows(array('formid' => '0'))->where('openid = ?', $openid));
             }
             $this->export(array(
                 'coid' => $coid,
