@@ -1,9 +1,9 @@
 <template name="articledetail">
 	<view>
 		<image class="self-center" v-if="thumb != null" :src="thumb" mode="aspectFit" style="width: 100%;"></image>
-		<view class="solid-bottom text-xxl padding-tb-sm">{{title}}</view>
-		<view class="text-gray action" v-if="link != null" @click="copy(link)">Link: {{link}}</view>
-		<view class="text-gray padding-tb-sm" v-if="showTools && views != null">
+		<view class="solid-bottom text-xxl padding-bottom-xl" v-if="showTools">{{title}}</view>
+		<view class="text-gray action padding-bottom-df" v-if="link != null && showTools" @click="copy(link)">Link: {{link}}</view>
+		<view class="text-gray padding-bottom-xl" v-if="showTools && views != null">
 			<text class="cuIcon-attentionfill padding-lr-xs"></text>{{views}}
 			<text class="cuIcon-likefill padding-lr-xs"></text> {{likes}}
 			<text class="cuIcon-communityfill padding-lr-xs"></text> {{comments}}

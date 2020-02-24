@@ -2,7 +2,7 @@
 	<view>
 		<scroll-view scroll-x class="bg-white nav">
 			<view class="flex text-center">
-				<view class="cu-item flex-sub" :class="index==tabCur?'cur text-' + color :''" v-for="(item,index) in categoryList"
+				<view class="cu-item flex-sub text-lg" :class="index==tabCur?'cur text-' + color :''" v-for="(item,index) in categoryList"
 				 :key="index" @tap="tabSelect" :data-id="index">
 					{{item}}
 				</view>
@@ -11,7 +11,7 @@
 		<view class="cu-list menu">
 			<view class="cu-item" v-for="(item,index) in articleList" :key="index" @click="openArticle(item.cid, item.title)">
 				<view class="content padding-tb-sm">
-					<view class="padding-lr-xs">{{item.title}}</view>
+					<view class="padding-lr-xs text-lg">{{item.title}}</view>
 					<view class="text-gray text-sm">
 						<text class="cuIcon-attentionfill padding-lr-xs"></text>{{item.views}}
 						<text class="cuIcon-likefill padding-lr-xs"></text> {{item.likes}}

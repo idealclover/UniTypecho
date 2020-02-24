@@ -181,7 +181,7 @@
 	
 	.cu-list .cu-item image {
 		display: inline-block;
-		width: 20px!important;
-		height: 20px!important;
+		width: 48upx!important;
+		height: 48upx!important;
 	}
 </style>

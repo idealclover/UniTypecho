@@ -17,14 +17,14 @@
 	font-family: Helvetica, "PingFangSC", 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
 	color: #333;
 	line-height: 1.5;
-	font-size: 28upx;
+	font-size: 36upx;
 	text-align:justify;/* //左右两端对齐 */
 }
 .wxParse view ,.wxParse uni-view{
 	word-break: break-word;
 }
 .wxParse .p {
-	margin-bottom: 30upx;
+	margin-bottom: 36upx;
 	clear: both;
 }
 .wxParse .inline {
@@ -40,25 +40,21 @@
 }
 
 .wxParse .h1{
-  font-size: 36upx;
-  margin: 40rpx 0;
+  font-size: 48upx;
+  margin: 48rpx 0;
 }
 .wxParse .h2{
-  font-size: 32upx;
-  margin: 40rpx 0;
+  font-size: 44upx;
+  margin: 44rpx 0;
 }
 .wxParse .h3{
-  font-size: 30upx;
-  margin: 30rpx 0;
+  font-size: 40upx;
+  margin: 40rpx 0;
 }
-.wxParse .h4{
-  margin: 30rpx 0;
-}
-.wxParse .h5{
-  margin: 30rpx 0;
-}
+.wxParse .h4,
+.wxParse .h5,
 .wxParse .h6{
-  margin: 30rpx 0;
+  margin: 40rpx 0;
 }
 
 .wxParse .h1,
