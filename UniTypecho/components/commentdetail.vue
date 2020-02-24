@@ -120,6 +120,13 @@
 							if (Util.isNull(item.authorImg)) {
 								item.authorImg = "https://i.loli.net/2020/02/21/suCXpZ4rxQFeMDn.jpg";
 							}
+							item.text = marked(item.text);
+							if(!Util.isNull(item.replies)){
+								for(let i = 0; i < item.replies.length; i++){
+									item.replies[i].text = marked(item.replies[i].text);
+								}
+								item.replies = item.replies.reverse();
+							}
 							item.createdtime = API.getCreatedTime(item.created);
 							return item;
 						})
@@ -170,5 +177,11 @@
 
 	.cu-list .cu-item .content {
 		word-break: break-all;
+	}
+	
+	.cu-list .cu-item image {
+		display: inline-block;
+		width: 20px!important;
+		height: 20px!important;
 	}
 </style>

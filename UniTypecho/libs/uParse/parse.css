@@ -17,16 +17,15 @@
 	font-family: Helvetica, "PingFangSC", 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
 	color: #333;
 	line-height: 1.5;
-	font-size: 1em;
+	font-size: 28upx;
 	text-align:justify;/* //左右两端对齐 */
 }
 .wxParse view ,.wxParse uni-view{
 	word-break: break-word;
 }
 .wxParse .p {
-	padding-bottom: 0.5em;
+	margin-bottom: 30upx;
 	clear: both;
-	/* letter-spacing: 0;//字间距 */
 }
 .wxParse .inline {
   display: inline;
@@ -41,28 +40,25 @@
 }
 
 .wxParse .h1{
-  font-size: 2em;
-  line-height: 1.2em;
-  margin: 0.67em 0;
+  font-size: 36upx;
+  margin: 40rpx 0;
 }
 .wxParse .h2{
-  font-size: 1.5em;
-  margin: 0.83em 0;
+  font-size: 32upx;
+  margin: 40rpx 0;
 }
 .wxParse .h3{
-  font-size: 1.17em;
-  margin: 1em 0;
+  font-size: 30upx;
+  margin: 30rpx 0;
 }
 .wxParse .h4{
-  margin: 1.33em 0;
+  margin: 30rpx 0;
 }
 .wxParse .h5{
-  font-size: 0.83em;
-  margin: 1.67em 0;
+  margin: 30rpx 0;
 }
 .wxParse .h6{
-  font-size: 0.83em;
-  margin: 1.67em 0;
+  margin: 30rpx 0;
 }
 
 .wxParse .h1,
@@ -84,14 +80,14 @@
   font-style: italic;
 }
 .wxParse .spaceshow{
-	  white-space: pre;
+  white-space: pre;
 }
 .wxParse .pre,
 .wxParse .tt,
 .wxParse .code,
 .wxParse .kbd,
 .wxParse .samp {
-  font-family: monospace;
+  font-family: TrebuchetMS,Rotobo,"Microsoft YaHei",sans-serif;
 }
 .wxParse .pre {
   overflow: auto;
@@ -141,6 +137,7 @@
 }
 
 .wxParse .a {
+  word-break: break-all;
   color: deepskyblue;
 }
 
@@ -158,14 +155,13 @@
 .wxParse .img {
   display: block;
   max-width: 100%;
-  margin-bottom: 0em;/* //与p标签底部padding同时修改 */
+  margin-bottom: 0;/* //与p标签底部padding同时修改 */
   overflow: hidden;
 }
 
 .wxParse .blockquote {
   margin: 10upx 0;
   padding: 22upx 0 22upx 22upx;
-  font-family: Courier, Calibri, "宋体";
   background: #f5f5f5;
   border-left: 6upx solid #dbdbdb;
 }
@@ -174,8 +170,8 @@
 }
 .wxParse .ul, .wxParse .ol {
   display: block;
-  margin: 1em 0;
-  padding-left: 2em;
+  margin: 50upx 0;
+  padding-left: 50upx;
 }
 .wxParse .ol {
   list-style-type: disc;

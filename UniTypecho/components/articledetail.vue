@@ -137,4 +137,7 @@
 	}
 </script>
 <style>
+	.u-parse{
+		font-size: 15px;
+	}
 </style>
