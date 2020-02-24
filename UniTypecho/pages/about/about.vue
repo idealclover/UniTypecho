@@ -94,7 +94,7 @@
 		/* TODO */
 		background-image: url('https://image.weilanwl.com/color2.0/index.jpg');
 		background-size: cover;
-		height: 450rpx;
+		height: 600rpx;
 		display: flex;
 		justify-content: center;
 		padding-top: 0rpx;

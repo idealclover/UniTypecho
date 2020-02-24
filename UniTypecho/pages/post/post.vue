@@ -6,6 +6,8 @@
 			<footerinfo />
 		</view>
 		<commentsender :cid="cid" :isPage="false" :title="title" :thumb="thumb" @onRefreshComments="onRefreshComments" v-if="showComments" />
+		<canvas style="position: absolute; top: -3000px; left: -3000px; width: 2000px; height: 2000px; background: #000"
+		 canvas-id="canvas"></canvas>
 	</view>
 </template>
 
@@ -36,6 +38,7 @@
 				cid: null,
 				title: "",
 				thumb: null,
+				cutThumb: null,
 				isShowThumb: false
 			}
 		},
@@ -58,21 +61,59 @@
 						title: e.title
 					});
 				}
+				// console.log(e.thumb);
+				// this.cutImg(e.thumb);
 			},
 			onRefreshComments() {
 				this.refreshComments = !this.refreshComments;
-			}
+			},
+			// cutImg(thumb) {
+			// 	console.log(thumb);
+			// 	let that = this;
+			// 	uni.getImageInfo({
+			// 		src: thumb,
+			// 		success: (res) => {
+			// 			// 'canvas'为前面创建的canvas标签的canvas-id属性值
+			// 			let ctx = uni.createCanvasContext('canvas');
+			// 			let canvasW = 640,
+			// 				canvasH = res.height;
+			// 			if (res.width / res.height > 5 / 4) { // 长宽比大于5:4
+			// 				canvasW = res.height * 5 / 4;
+			// 			}
+			// 			console.log(canvasW);
+			// 			console.log(canvasH);
+			// 			// 将图片绘制到画布
+			// 			ctx.drawImage(res.path, (res.width - canvasW) / 2, 0, canvasW, canvasH, 0, 0, canvasW, canvasH)
+			// 			// draw()必须要用到，并且需要在绘制成功后导出图片
+			// 			ctx.draw(false, () => {
+			// 				uni.canvasToTempFilePath({
+			// 					width: canvasW,
+			// 					height: canvasH,
+			// 					destWidth: canvasW,
+			// 					destHeight: canvasH,
+			// 					canvasId: 'canvas',
+			// 					fileType: 'jpg',
+			// 					success: (res) => {
+			// 						that.cutThumb = res.tempFilePath
+			// 						// res.tempFilePath为导出的图片路径
+			// 					}
+			// 				})
+			// 			})
+			// 		}
+			// 	});
+			// }
 		},
 		onShareAppMessage: function() {
 			// #ifdef MP-QQ
 			qq.showShareMenu({
 				showShareItems: ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
 			});
-			// #endif
+			// #endif		
+			// console.log(this.cutThumb);
 			return {
 				title: this.title,
 				path: '/pages/index/index?cid=' + this.cid,
-				imageUrl: this.thumb
+				// imageUrl: this.cutThumb
 			}
 		}
 	}
