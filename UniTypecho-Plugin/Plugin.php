@@ -173,15 +173,15 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
              $data = array(
                  'touser' => $openid,
                  "template_id" => $templateId,
-                 "page" => "pages/index/index?cid=" . $cfg.cid,
+                 "page" => "pages/index/index?cid=" . $cfg['cid'],
                  'data' => array(
-                     "thing4" => array(
+                     "thing1" => array(
                          "value" => $cfg["title"]
                      ),
-                     "name1" => array(
+                     "name2" => array(
                          "value" => $cfg['author']
                      ),
-                     "thing2" => array(
+                     "thing3" => array(
                          "value" => $cfg['text']
                      )
                  )
@@ -201,7 +201,9 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
              $info = curl_exec($ch);
              $row = $db->fetchRow($db->select('formid')->from('table.unitypecho')->where('openid = ?', $openid));
-             $db->query($db->update('table.unitypecho')->rows(array('formid' => (int) $row['formid'] - 1))->where('openid = ?', $openid));    
+             if((int) $row['formid'] > 0){
+                $db->query($db->update('table.unitypecho')->rows(array('formid' => (int) $row['formid'] - 1))->where('openid = ?', $openid));
+             }
              return $info;
          }
     }
