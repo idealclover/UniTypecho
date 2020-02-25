@@ -386,8 +386,10 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
 
         $path = self::GET('path', 'null');
         if ($path == 'null') {
-            $path = 'page/index/index';
+            $path = 'pages/index/index';
         }
+        //TODO: remove in next version
+        $path = str_replace("/page/","/pages/",$path);
         $url = sprintf('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s', $this->appId, $this->appSecret);
         $info = file_get_contents($url);
         $json = json_decode($info);

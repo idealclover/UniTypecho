@@ -111,8 +111,9 @@
 					title: "加载中",
 					mask: false
 				});
+				console.log(this.thumb);
 				if (!this.isPage) {
-					this.qrUrl = API.getPosterUrl('/page/index/index?cid=' + this.cid);
+					this.qrUrl = API.getPosterUrl('/pages/index/index?cid=' + this.cid);
 				} else this.qrUrl = API.getPosterUrl('/pages/index/index');
 				this.imgUrl = Util.isNull(this.thumb) ? "https://api.isoyu.com/bing_images.php" : this.thumb;
 				this.referrer = this.isLogin() ? getApp().globalData.userInfo.nickName + '分享给你' : '分享给你';
