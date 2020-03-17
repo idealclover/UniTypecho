@@ -81,24 +81,7 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
 ## 如何使用 How to Use
 
-**注意：在各小程序平台上架需域名备案并开启 https**
-
-1. 插件后台配置
-	1. （star 并）下载源码，将 ```UniTypecho-Plugin``` 目录重命名为 ```UniTypecho``` 并上传到服务器 ```Typecho根目录/usr/plugins/``` 中
-	2. 如想打包为小程序，在对应平台申请并认证，获取 ```APPId``` 与 ```APPSecret```
-	3. 在 Typecho 后台启用 UniTypecho 插件，并进入配置界面填写小程序信息，展示信息等，其中 ```API密钥``` 为前后端通信密钥，请自己定义
-	4. （可选）配置永久链接形式为 ```/archives/{cid}/``` （方便启用页内跳转）
-2. 程序端配置
-	1. 下载 IDE [HBuilder X](https://www.dcloud.io/hbuilderx.html) 并安装，打开 ```UniTypecho``` 文件夹中的项目
-	2. 复制 ```config.js.example``` 为 ```config.js```，填写域名，密钥，主题配置信息（注：如 Typecho 未配置地址重写则需在域名后加入 /index.php）
-	3. 复制 ```manifest.json.example``` 为 ```manifest.json```，配置 DCloud APPID 信息等
-	4. 针对不同平台，下载开发者平台工具进行调试
-3. **如果你只需要微信小程序/QQ小程序**
-   1. 在 [release](https://github.com/idealclover/UniTypecho/releases) 中下载最新版的 ```mp-weixin.zip / mp-qq.zip``` 并解压
-   2. 修改 ```project.config.json``` 与 ```static/config.js```
-   3. 在小程序开发者平台平台工具中打开，调试 
-
-> 注：百度小程序不允许个人申请；字节跳动小程序申请需审核；支付宝及钉钉小程序类目暂不包括内容类目
+参见 [UniTypecho 安装使用全攻略](https://idealclover.top/archives/613/)
 
 ## 遇到了问题？Get Stucked?
 
