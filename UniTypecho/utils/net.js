@@ -26,7 +26,8 @@ function request(requestHandler) {
 			uni.hideLoading();
 			requestHandler.success(res);
 		},
-		fail: function() {
+		fail: function(e) {
+			console.log(e);
 			uni.hideLoading();
 			uni.showToast({
 				title: "网络错误请刷新",
