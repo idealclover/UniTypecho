@@ -41,7 +41,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
         $showShare = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->showShare;
         $showDonate = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->showDonate;
         $templateId = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->templateId;
-        if($templateId != 'xxx' && $templateId != null) $result['templateIds'] = array($templateId);
+        if ($templateId != 'xxx' && $templateId != null) $result['templateIds'] = array($templateId);
         $result['showComments'] = $showComments;
         $result['showShare'] = $showShare;
         $result['showDonate'] = $showDonate;
@@ -72,7 +72,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
                     $post[0]['tag'] = $this->db->fetchAll($this->db->select('name')->from('table.metas')->join('table.relationships', 'table.metas.mid = table.relationships.mid', Typecho_DB::LEFT_JOIN)->where('table.relationships.cid = ?', $cid)->where('table.metas.type = ?', 'tag'));
                     // $post[0]['thumb'] = $this->db->fetchAll($this->db->select('name', 'str_value')->from('table.fields')->where('cid = ?', $cid)) ? $this->db->fetchAll($this->db->select('name', 'str_value')->from('table.fields')->where('cid = ?', $cid)) : array(array("name" => "thumb", "str_value" => "https://api.isoyu.com/bing_images.php"));
                     $tempTrumb = $this->db->fetchAll($this->db->select('str_value')->from('table.fields')->where('name = ?', 'thumb')->where('cid = ?', $cid));
-                    if(empty($tempTrumb)) $post[0]['thumb'] = array('url' => $this->defaultURL, 'type' => 'default');
+                    if (empty($tempTrumb)) $post[0]['thumb'] = array('url' => $this->defaultURL, 'type' => 'default');
                     else $post[0]['thumb'] = array('url' => $tempTrumb[0]['str_value'], 'type' => 'self');
                     $post[0]['views'] = $this->db->fetchAll($this->db->select('views')->from('table.contents')->where('table.contents.cid = ?', $cid));
                     $post[0]['likes'] = $this->db->fetchAll($this->db->select('likes')->from('table.contents')->where('table.contents.cid = ?', $cid));
@@ -229,7 +229,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
             $post        = $this->widget("Widget_Abstract_Contents")->push($post);
             $post['tag'] = $this->db->fetchAll($this->db->select('name')->from('table.metas')->join('table.relationships', 'table.metas.mid = table.relationships.mid', Typecho_DB::LEFT_JOIN)->where('table.relationships.cid = ?', $post['cid'])->where('table.metas.type = ?', 'tag'));
             $tempTrumb = $this->db->fetchAll($this->db->select('str_value')->from('table.fields')->where('name = ?', 'thumb')->where('cid = ?', $post['cid']));
-            if(empty($tempTrumb)) $post['thumb'] = array('url' => $this->defaultURL, 'type' => 'default');
+            if (empty($tempTrumb)) $post['thumb'] = array('url' => $this->defaultURL, 'type' => 'default');
             else $post['thumb'] = array('url' => $tempTrumb[0]['str_value'], 'type' => 'self');
             $post['views'] = $this->db->fetchAll($this->db->select('views')->from('table.contents')->where('table.contents.cid = ?', $post['cid']));
             $post['likes'] = $this->db->fetchAll($this->db->select('likes')->from('table.contents')->where('table.contents.cid = ?', $post['cid']));
@@ -380,7 +380,8 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
         }
     }
 
-    private function getPoster() {
+    private function getPoster()
+    {
         $sec = self::GET('apisec', 'null');
         self::checkApisec($sec);
 
@@ -389,7 +390,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
             $path = 'pages/index/index';
         }
         //TODO: remove in next version
-        $path = str_replace("/page/","/pages/",$path);
+        $path = str_replace("/page/", "/pages/", $path);
         $url = sprintf('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s', $this->appId, $this->appSecret);
         $info = file_get_contents($url);
         $json = json_decode($info);
@@ -461,20 +462,20 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
             $openid = self::GET('openid', "NULL");
             // status: 0 通过 1 待审核
             $status = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->defaultStatus;
-            if($status == 0){
+            if ($status == 0) {
                 $blackList = explode("\n", Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->blackList);
-                foreach($blackList as $item){
-                    if($item != '' && $openid == $item) $status = 1;
+                foreach ($blackList as $item) {
+                    if ($item != '' && $openid == $item) $status = 1;
                 }
-            }else if($status == 1){
+            } else if ($status == 1) {
                 $whiteList = explode("\n", Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->whiteList);
-                foreach($whiteList as $item){
-                    if($item != '' && $openid == $item) $status = 0;
+                foreach ($whiteList as $item) {
+                    if ($item != '' && $openid == $item) $status = 0;
                 }
             }
 
-            if($status == 0) $status = 'approved';
-            elseif($status == 1) $status = 'waiting';
+            if ($status == 0) $status = 'approved';
+            elseif ($status == 1) $status = 'waiting';
 
             $coid = $this->db->query($this->db->insert('table.comments')->rows(array(
                 'cid' => $cid, 'created' => time(), 'author' => $author, 'authorId' => '0',
@@ -500,20 +501,20 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
             $text = self::GET('text', "None");
             // status: 0 通过 1 待审核
             $status = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->defaultStatus;
-            if($status == 0){
+            if ($status == 0) {
                 $blackList = explode("\n", Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->blackList);
-                foreach($blackList as $item){
-                    if($item != '' && $mail == $item) $status = 1;
+                foreach ($blackList as $item) {
+                    if ($item != '' && $mail == $item) $status = 1;
                 }
-            }else if($status == 1){
+            } else if ($status == 1) {
                 $whiteList = explode("\n", Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->whiteList);
-                foreach($whiteList as $item){
-                    if($item != '' && $mail == $item) $status = 0;
+                foreach ($whiteList as $item) {
+                    if ($item != '' && $mail == $item) $status = 0;
                 }
             }
 
-            if($status == 0) $status = 'approved';
-            elseif($status == 1) $status = 'waiting';
+            if ($status == 0) $status = 'approved';
+            elseif ($status == 1) $status = 'waiting';
 
             $coid = $this->db->query($this->db->insert('table.comments')->rows(array(
                 'cid' => $cid, 'created' => time(), 'author' => $author, 'authorId' => '0',
@@ -543,7 +544,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
         $this->export('success');
     }
 
-        private function defaults()
+    private function defaults()
     {
         $this->export('Method not found.');
     }
@@ -566,5 +567,4 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
     {
         $this->on($this->request);
     }
-
 }

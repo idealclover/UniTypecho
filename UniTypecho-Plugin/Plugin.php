@@ -20,23 +20,19 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
         $type = explode('_', $db->getAdapterName());
         $type = array_pop($type);
         //创建用户数据库
-        $scripts = file_get_contents('usr/plugins/UniTypecho/sql/unitypecho.sql');
+        $scripts = file_get_contents('usr/plugins/UniTypecho/sql/' . $type . '.sql');
         $scripts = str_replace('typecho_', $prefix, $scripts);
         $scripts = explode(';', $scripts);
 
         try {
-            if (!$db->fetchRow($db->query("SHOW TABLES LIKE '{$prefix}unitypecho';", Typecho_Db::READ))) {
-                foreach ($scripts as $script) {
-                    $script = trim($script);
-                    if ($script) {
-                        $db->query($script, Typecho_Db::WRITE);
-                    }
+            foreach ($scripts as $script) {
+                $script = trim($script);
+                if ($script) {
+                    $db->query($script, Typecho_Db::WRITE);
                 }
             }
+            return '插件启用成功啦！快快配置使用吧！(๑>ᴗ<๑)';
         } catch (Typecho_Db_Exception $e) {
-            // try {} catch (Exception $e) {
-            //     throw new Typecho_Plugin_Exception(_t('数据表建立失败，插件启用失败，错误信息：%s。', $e->getMessage()));
-            // }
             throw new Typecho_Plugin_Exception(_t('数据表建立失败，插件启用失败，错误信息：%s。', $e->getMessage()));
         } catch (Exception $e) {
             throw new Typecho_Plugin_Exception($e->getMessage());
@@ -132,79 +128,77 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
     }
     public static function sendFeedback($comment)
     {
-         $cfg = array(
-             'cid'       => $comment->cid,
-             'author'    => $comment->author,
-             'authorId'  => $comment->authorId,
-             'ownerId'   => $comment->ownerId,
-             'title'     => $comment->title,
-             'text'      => $comment->text,
-             'mail'      => $comment->mail,
-             'status'    => $comment->status,
-             'parent'    => $comment->parent,
-         );
+        $cfg = array(
+            'cid'       => $comment->cid,
+            'author'    => $comment->author,
+            'authorId'  => $comment->authorId,
+            'ownerId'   => $comment->ownerId,
+            'title'     => $comment->title,
+            'text'      => $comment->text,
+            'mail'      => $comment->mail,
+            'status'    => $comment->status,
+            'parent'    => $comment->parent,
+        );
 
 
-         if($comment->status != "approved" || $comment->parent == "0") return;
+        if ($comment->status != "approved" || $comment->parent == "0") return;
 
-         $appId = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->appId;
-         $appSecret = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->appSecret;
-         $templateId = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->templateId;
+        $appId = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->appId;
+        $appSecret = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->appSecret;
+        $templateId = Typecho_Widget::widget('Widget_Options')->plugin('UniTypecho')->templateId;
 
-         if($templateId == null || $templateId == "") return;
+        if ($templateId == null || $templateId == "") return;
 
-         $db  = Typecho_Db::get();
+        $db  = Typecho_Db::get();
 
-         $original = $db->fetchRow($db->select('author', 'mail', 'text')->from('table.comments')->where('coid = ?', $comment->parent));
-         if (preg_match( '/(.*)@wx\.com/', $original['mail'], $matches)){
-             // print('qwq');
-             $openid = $matches[1];
-             $url = sprintf('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s', $appId, $appSecret);
-             $info = file_get_contents($url);
-             $json = json_decode($info); //对json数据解码
-             $arr = get_object_vars($json);
-             $access_token = $arr['access_token'];
-             if($access_token == null) return;
-             $url = sprintf('https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=%s', $access_token);
-             if(mb_strlen($cfg['title']) > 20) $cfg['title'] = mb_substr($cfg['title'] , 0 , 17, 'utf-8') . "...";
-             if(mb_strlen($cfg['author']) > 10) $cfg['author'] = mb_substr($cfg['author'], 0, 10, 'utf-8');
-             if(mb_strlen($cfg['text']) > 20) $cfg['text'] = mb_substr($cfg['text'], 0, 17, 'utf-8') . "...";
+        $original = $db->fetchRow($db->select('author', 'mail', 'text')->from('table.comments')->where('coid = ?', $comment->parent));
+        if (preg_match('/(.*)@wx\.com/', $original['mail'], $matches)) {
+            // print('qwq');
+            $openid = $matches[1];
+            $url = sprintf('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s', $appId, $appSecret);
+            $info = file_get_contents($url);
+            $json = json_decode($info); //对json数据解码
+            $arr = get_object_vars($json);
+            $access_token = $arr['access_token'];
+            if ($access_token == null) return;
+            $url = sprintf('https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=%s', $access_token);
+            if (mb_strlen($cfg['title']) > 20) $cfg['title'] = mb_substr($cfg['title'], 0, 17, 'utf-8') . "...";
+            if (mb_strlen($cfg['author']) > 10) $cfg['author'] = mb_substr($cfg['author'], 0, 10, 'utf-8');
+            if (mb_strlen($cfg['text']) > 20) $cfg['text'] = mb_substr($cfg['text'], 0, 17, 'utf-8') . "...";
 
-             $data = array(
-                 'touser' => $openid,
-                 "template_id" => $templateId,
-                 "page" => "pages/index/index?cid=" . $cfg['cid'],
-                 'data' => array(
-                     "thing1" => array(
-                         "value" => $cfg["title"]
-                     ),
-                     "name2" => array(
-                         "value" => $cfg['author']
-                     ),
-                     "thing3" => array(
-                         "value" => $cfg['text']
-                     )
-                 )
-             );
+            $data = array(
+                'touser' => $openid,
+                "template_id" => $templateId,
+                "page" => "pages/index/index?cid=" . $cfg . cid,
+                'data' => array(
+                    "thing4" => array(
+                        "value" => $cfg["title"]
+                    ),
+                    "name1" => array(
+                        "value" => $cfg['author']
+                    ),
+                    "thing2" => array(
+                        "value" => $cfg['text']
+                    )
+                )
+            );
 
-             $result = json_encode($data,true);
-             $ch = curl_init();
+            $result = json_encode($data, true);
+            $ch = curl_init();
 
-             curl_setopt($ch, CURLOPT_URL, $url);
-             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');
-             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-             curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
-             curl_setopt($ch, CURLOPT_POSTFIELDS, $result);
-             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-             $info = curl_exec($ch);
-             $row = $db->fetchRow($db->select('formid')->from('table.unitypecho')->where('openid = ?', $openid));
-             if((int) $row['formid'] > 0){
-                $db->query($db->update('table.unitypecho')->rows(array('formid' => (int) $row['formid'] - 1))->where('openid = ?', $openid));
-             }
-             return $info;
-         }
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $result);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $info = curl_exec($ch);
+            $row = $db->fetchRow($db->select('formid')->from('table.unitypecho')->where('openid = ?', $openid));
+            $db->query($db->update('table.unitypecho')->rows(array('formid' => (int) $row['formid'] - 1))->where('openid = ?', $openid));
+            return $info;
+        }
     }
 }
