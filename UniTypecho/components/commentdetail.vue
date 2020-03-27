@@ -151,7 +151,7 @@
 				// #ifdef APP-PLUS
 				plus.runtime.openURL(href, function(res) {});
 				// #endif
-				// #ifdef MP
+				// #ifdef MP-QQ || MP-WEIXIN
 				uni.setClipboardData({
 					data: href,
 					success: function() {
