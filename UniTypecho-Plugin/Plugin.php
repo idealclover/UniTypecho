@@ -39,24 +39,6 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
         }
 
         //创建赞数据库
-        $scriptslike = file_get_contents('usr/plugins/UniTypecho/sql/unitypecholike.sql');
-        $scriptslike = str_replace('typecho_', $prefix, $scriptslike);
-        $scriptslike = explode(';', $scriptslike);
-        try {
-            if (!$db->fetchRow($db->query("SHOW TABLES LIKE '{$prefix}unitypecholike';", Typecho_Db::READ))) {
-                foreach ($scriptslike as $script) {
-                    $script = trim($script);
-                    if ($script) {
-                        $db->query($script, Typecho_Db::WRITE);
-                    }
-                }
-            }
-        } catch (Typecho_Db_Exception $e) {
-            throw new Typecho_Plugin_Exception(_t('数据表建立失败，插件启用失败，错误信息：%s。', $e->getMessage()));
-        } catch (Exception $e) {
-            throw new Typecho_Plugin_Exception($e->getMessage());
-        }
-        //创建赞数据库
         try {
             //增加点赞和阅读量
             if (!array_key_exists('views', $db->fetchRow($db->select()->from('table.contents')))) {
