@@ -100,6 +100,7 @@
 	margin: 1em 0upx;
 	background: #f5f5f5;
 	font-size: 24upx;
+	display: inline;
 }
 
 .wxParse .big {
