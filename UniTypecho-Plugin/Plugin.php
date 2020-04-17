@@ -31,14 +31,12 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
                     $db->query($script, Typecho_Db::WRITE);
                 }
             }
-            return '插件启用成功啦！快快配置使用吧！(๑>ᴗ<๑)';
         } catch (Typecho_Db_Exception $e) {
             throw new Typecho_Plugin_Exception(_t('数据表建立失败，插件启用失败，错误信息：%s。', $e->getMessage()));
         } catch (Exception $e) {
             throw new Typecho_Plugin_Exception($e->getMessage());
         }
 
-        //创建赞数据库
         try {
             //增加点赞和阅读量
             if (!array_key_exists('views', $db->fetchRow($db->select()->from('table.contents')))) {
@@ -62,6 +60,7 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
         } catch (Exception $e) {
             echo ($e->getMessage());
         }
+        return '插件启用成功啦！快快配置使用吧！(๑>ᴗ<๑)';
     }
 
     public static function deactivate()
