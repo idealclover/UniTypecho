@@ -2,6 +2,9 @@
 	<view>
 		<view class="margin-xl">
 			<articledetail :cid="cid" :isPage="false" :showTools="true" @getInfo="getInfo" />
+		</view>
+		<ad unit-id="adunit-d3e295788680fbd4"></ad>
+		<view class="margin-xl">
 			<commentdetail :cid="cid" :isPage="false" :refresh="refreshComments" v-if="showComments" />
 			<footerinfo />
 		</view>

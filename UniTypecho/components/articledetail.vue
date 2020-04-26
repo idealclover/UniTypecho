@@ -97,7 +97,7 @@
 			},
 			navigate(href, e) {
 				// do something
-				let re = new RegExp("^https:\/\/" + cfg.getdomain + "\/archives\/([0-9]*)\/?");
+				let re = new RegExp("^https:\/\/idealclover.top\/archives\/([0-9]*)\/?");
 				let str = href.match(re);
 				if (!Util.isNull(str)) {
 					uni.navigateTo({

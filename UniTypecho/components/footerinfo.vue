@@ -13,7 +13,7 @@
 	export default {
 		data() {
 			return {
-				domain: API.getDomain(),
+				domain: "https://idealclover.top",
 				name: cfg.getname
 			};
 		},
