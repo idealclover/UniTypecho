@@ -19,6 +19,7 @@ class UniTypecho_Plugin implements Typecho_Plugin_Interface
         $prefix = $db->getPrefix();
         $type = explode('_', $db->getAdapterName());
         $type = array_pop($type);
+        if ($type != 'MySQL' && $type != 'SQLite') $type = 'MySQL';
         //创建用户数据库
         $scripts = file_get_contents('usr/plugins/UniTypecho/sql/' . $type . '.sql');
         $scripts = str_replace('typecho_', $prefix, $scripts);
