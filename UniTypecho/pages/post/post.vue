@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<official-account></official-account>
 		<view class="margin-xl">
 			<articledetail :cid="cid" :isPage="false" :showTools="true" @getInfo="getInfo" />
 			<commentdetail :cid="cid" :isPage="false" :refresh="refreshComments" v-if="showComments" />

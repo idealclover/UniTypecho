@@ -10,6 +10,7 @@
 				</view>
 			</swiper-item>
 		</swiper>
+		<official-account></official-account>
 		<scroll-view scroll-x class="bg-white nav">
 			<view class="flex text-center text-lg">
 				<view class="cu-item flex-sub" :class="index==tabCur?'cur text-' + color :''" v-for="(item,index) in categoryList"

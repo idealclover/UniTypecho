@@ -18,6 +18,7 @@
 			</view>
 			<view class="padding">您的支持是对我最大的鼓励</view>
 		</view>
+		<ad unit-id="adunit-d3e295788680fbd4"></ad>
 		<!-- #endif -->
 	</view>
 </template>
