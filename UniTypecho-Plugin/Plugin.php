@@ -5,7 +5,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * UniTypecho
  * @package UniTypecho
  * @author idealclover
- * @version 1.0.0
+ * @version 1.2.0
  * @link https://idealclover.top
  */
 class UniTypecho_Plugin implements Typecho_Plugin_Interface

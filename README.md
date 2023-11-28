@@ -2,7 +2,7 @@
 
 > 🤷 上一个还不够，我要上十个（指小程序平台）
 
-🎉 2023/11/28 update: 已支持 Typecho 1.2
+> 🎉 2023/11/28 update: 已支持 Typecho 1.2
 
 ## 介绍
 
@@ -21,7 +21,7 @@ UniTypecho 的安装非常简单，只需进行简单的插件与前端配置，
 
 微信小程序 & QQ 小程序：
 
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/qrcode.png)
+![](https://image.idealclover.cn/projects/UniTypecho/qrcode.png)
 
 字节跳动小程序：正在审核中
 
@@ -29,11 +29,11 @@ Android 应用：[蓝奏云](https://www.lanzous.com/i9k2usj)
 
 H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/qrcode2.png)
+![](https://image.idealclover.cn/projects/UniTypecho/qrcode2.png)
 
 截图：
 
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic1.png)
+![](https://image.idealclover.cn/projects/UniTypecho/pic1.png)
 
 ## 特性 Features
 
@@ -41,7 +41,7 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
 当发送评论时，微信会询问是否发送订阅消息。若用户选择接收，则当其评论有新回复时会收到微信订阅消息通知，并可进入小程序查看。
 
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic2.png)
+![](https://image.idealclover.cn/projects/UniTypecho/pic2.png)
 
 ### 内链打开：
 
@@ -55,7 +55,7 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
 在微信小程序中提供了海报分享方式，可以生成海报并保存，便于分享。
 
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic3.png)
+![](https://image.idealclover.cn/projects/UniTypecho/pic3.png)
 
 而 QQ 小程序由于自带可以分享到 QQ 空间，微信好友及朋友圈，故未加入海报分享功能。
 
@@ -63,13 +63,13 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
 当用户通过扫描二维码进入时，若直接进入文章页，则返回时会直接跳出小程序。而 UniTypecho 采取了先进入主页再跳转到文章页的做法，使得用户返回时会回到主页继续浏览。
 
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic4.png)
+![](https://image.idealclover.cn/projects/UniTypecho/pic4.png)
 
 ### 黑白名单
 
 设置评论默认归类为通过/待审核，重重把关避免垃圾评论骚扰
 
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/pic5.png)
+![](https://image.idealclover.cn/projects/UniTypecho/pic5.png)
 
 ### 以及更多：
 
@@ -94,7 +94,7 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 * 发邮件给项目维护者傻翠 [idealclover@live.com](mailto://idealclover@live.com)
 * 加入 ~~暂时只有我一个人的~~ ~~粉丝群（划去）~~ UniTypecho 用户交流群 [1059333269](https://jq.qq.com/?_wv=1027&k=57glqp9)
 
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/qqgroup.png)
+![](https://image.idealclover.cn/projects/UniTypecho/qqgroup.png)
 
 ## 开发计划 Next TODOs
 
@@ -117,7 +117,7 @@ H5 页面：[链接](https://h5.idealclover.cn/) （请使用手机打开）
 
 支持微信，支付宝，QQ等多种支付方式
 
-![](https://github.com/idealclover/UniTypecho/raw/master/assets/donate.png)
+![](https://image.idealclover.cn/projects/UniTypecho/donate.png)
 
 关于如何用一个链接做到如此，这是我的另一个开源项目 [Click-to-Donate](https://github.com/idealclover/click-to-donate) 。
 
