@@ -551,7 +551,7 @@ class UniTypecho_Action extends Typecho_Widget implements Widget_Interface_Do
 
     public function export($data = array(), $status = 200)
     {
-        $this->res->throwJson(array(
+        $this->response->throwJson(array(
             'status' => $status,
             'data' => $data
         ));

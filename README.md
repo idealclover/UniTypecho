@@ -2,6 +2,8 @@
 
 > 🤷 上一个还不够，我要上十个（指小程序平台）
 
+🎉 2023/11/28 update: 已支持 Typecho 1.2
+
 ## 介绍
 
 UniTypecho - 将 Typecho 打包为跨平台应用 Based on uni-app and WeTypecho.
