@@ -3,7 +3,7 @@ var name = ""
 var API_SECRET = ""
 
 var color = "green"
-var donateqrurl = "https://image.idealclover.cn/blog/assets/donateqrwechat.jpg"
+var donateqrurl = "https://cdn.jsdelivr.net/gh/idealclover/UniTypecho@master/UniTypecho/static/images/donate-qr.jpg"
 
 export default {
     getdomain: domain,

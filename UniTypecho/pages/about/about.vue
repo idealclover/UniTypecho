@@ -92,7 +92,7 @@
 <style>
 	.UCenter-bg {
 		/* TODO */
-		background-image: url('https://image.weilanwl.com/color2.0/index.jpg');
+		background-image: url('https://cdn.jsdelivr.net/gh/idealclover/UniTypecho@master/UniTypecho/static/images/about-background.jpg');
 		background-size: cover;
 		height: 600rpx;
 		display: flex;

@@ -99,7 +99,7 @@
 								}
 								let leftAvatars = that.likeNum - avatarList.length
 								for (let i = 0; i < leftAvatars; i++) {
-									avatarList.push("https://i.loli.net/2020/02/21/suCXpZ4rxQFeMDn.jpg");
+									avatarList.push("https://cdn.jsdelivr.net/gh/idealclover/UniTypecho@master/UniTypecho/static/images/default-avatar.jpg");
 								};
 								avatarList.reverse();
 								that.avatarList = avatarList;
@@ -118,7 +118,7 @@
 								item.author = "游客";
 							}
 							if (Util.isNull(item.authorImg)) {
-								item.authorImg = "https://i.loli.net/2020/02/21/suCXpZ4rxQFeMDn.jpg";
+								item.authorImg = "https://cdn.jsdelivr.net/gh/idealclover/UniTypecho@master/UniTypecho/static/images/default-avatar.jpg";
 							}
 							item.text = marked(item.text);
 							if(!Util.isNull(item.replies)){
